@@ -13,15 +13,23 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-
         Category::factory()->create([
-            'name' => 'category 1',
+            'name' => 'Chair',
         ]);
         Category::factory()->create([
-            'name' => 'category 2',
+            'name' => 'Cupboard',
         ]);
         Category::factory()->create([
-            'name' => 'category 3',
+            'name' => 'Decoration',
+        ]);
+        Category::factory()->create([
+            'name' => 'Hanger',
+        ]);
+        Category::factory()->create([
+            'name' => 'Shelf',
+        ]);
+        Category::factory()->create([
+            'name' => 'Table',
         ]);
     }
 }

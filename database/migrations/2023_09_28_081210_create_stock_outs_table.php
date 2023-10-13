@@ -15,8 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('furniture_id');
             $table->string('code');
-            $table->string('qty');
             $table->string('buyer');
+            $table->string('name');
+            $table->unsignedFloat('price');
+            $table->bigInteger('stock_out');
+            $table->bigInteger('initial_stock');
+            $table->bigInteger('final_stock');
 
             $table->foreign('furniture_id')->references('id')->on('furniture')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

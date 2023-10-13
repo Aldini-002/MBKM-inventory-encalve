@@ -13,15 +13,29 @@ class MaterialSeeder extends Seeder
      */
     public function run(): void
     {
-
         Material::factory()->create([
-            'name' => 'material 1',
+            'name' => 'Teak wood',
         ]);
         Material::factory()->create([
-            'name' => 'material 2',
+            'name' => 'Munggur wood',
         ]);
         Material::factory()->create([
-            'name' => 'material 3',
+            'name' => 'Mahogany wood',
+        ]);
+        Material::factory()->create([
+            'name' => 'Sisal',
+        ]);
+        Material::factory()->create([
+            'name' => 'Ctolh',
+        ]);
+        Material::factory()->create([
+            'name' => 'Iron',
+        ]);
+        Material::factory()->create([
+            'name' => 'Cow leather',
+        ]);
+        Material::factory()->create([
+            'name' => 'Goat leather',
         ]);
     }
 }

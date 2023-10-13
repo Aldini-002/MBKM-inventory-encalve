@@ -29,7 +29,6 @@ class FurnitureController extends Controller
         $furnitures = Furniture::filter($filters)->with($with)->latest()->get();
 
         return view('furnitures.index', [
-            'page' => 'furnitures',
             'furnitures' => $furnitures,
             'finishings' => Finishing::all(),
             'categories' => Category::all(),

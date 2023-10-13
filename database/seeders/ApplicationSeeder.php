@@ -14,13 +14,25 @@ class ApplicationSeeder extends Seeder
     public function run(): void
     {
         Application::factory()->create([
-            'name' => 'app 1',
+            'name' => 'Outdoor',
         ]);
         Application::factory()->create([
-            'name' => 'app 2',
+            'name' => 'Indoor',
         ]);
         Application::factory()->create([
-            'name' => 'app 3',
+            'name' => 'Living room',
+        ]);
+        Application::factory()->create([
+            'name' => 'Dining room',
+        ]);
+        Application::factory()->create([
+            'name' => 'Bedroom',
+        ]);
+        Application::factory()->create([
+            'name' => 'Decor',
+        ]);
+        Application::factory()->create([
+            'name' => 'Home furniture',
         ]);
     }
 }

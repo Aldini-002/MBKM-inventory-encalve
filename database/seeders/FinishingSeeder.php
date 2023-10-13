@@ -13,15 +13,14 @@ class FinishingSeeder extends Seeder
      */
     public function run(): void
     {
-
         Finishing::factory()->create([
-            'name' => 'finishing 1',
+            'name' => 'Coloring',
         ]);
         Finishing::factory()->create([
-            'name' => 'finishing 2',
+            'name' => 'Natural',
         ]);
         Finishing::factory()->create([
-            'name' => 'finishing 3',
+            'name' => 'Rustic',
         ]);
     }
 }

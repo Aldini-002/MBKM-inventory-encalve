@@ -4,8 +4,11 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FinishingController;
 use App\Http\Controllers\FurnitureController;
+use App\Http\Controllers\FurnitureStockInSelectedController;
 use App\Http\Controllers\MaterialController;
-use App\Http\Controllers\StockController;
+use App\Http\Controllers\StockInController;
+use App\Http\Controllers\StockOutController;
+use App\Models\FurnitureStockInSelected;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,21 +89,35 @@ Route::prefix('/materials')->name('materials.')->group(function () {
  * stock_ins
  */
 Route::prefix('/stock_ins')->name('stock_ins.')->group(function () {
-    Route::get('/create', [StockController::class, 'create'])->name('create');
-    Route::get('/', [StockController::class, 'index'])->name('index');
-    Route::get('/{id}', [StockController::class, 'show'])->name('show');
-    Route::post('/', [StockController::class, 'store'])->name('store');
-    Route::put('/{id}', [StockController::class, 'update'])->name('update');
-    Route::delete('/{id}', [StockController::class, 'destroy'])->name('destroy');
+    Route::get('/create', [StockInController::class, 'create'])->name('create');
+    Route::get('/choose_furniture', [StockInController::class, 'choose_furniture'])->name('choose_furniture');
+    Route::get('/', [StockInController::class, 'index'])->name('index');
+    Route::get('/{id}', [StockInController::class, 'show'])->name('show');
+    Route::post('/', [StockInController::class, 'store'])->name('store');
+    Route::put('/{id}', [StockInController::class, 'update'])->name('update');
+    Route::delete('/{id}', [StockInController::class, 'destroy'])->name('destroy');
 });
+
+/**
+ * stock_ins_selected
+ */
+Route::prefix('/stock_ins_selected')->name('stock_ins.selected')->group(function () {
+    Route::get('/create', [FurnitureStockInSelectedController::class, 'create'])->name('create');
+    Route::get('/', [FurnitureStockInSelectedController::class, 'index'])->name('index');
+    Route::get('/{id}', [FurnitureStockInSelectedController::class, 'show'])->name('show');
+    Route::post('/', [FurnitureStockInSelectedController::class, 'store'])->name('store');
+    Route::put('/{id}', [FurnitureStockInSelectedController::class, 'update'])->name('update');
+    Route::delete('/{id}', [FurnitureStockInSelectedController::class, 'destroy'])->name('destroy');
+});
+
 /**
  * stock_outs
  */
 Route::prefix('/stock_outs')->name('stock_outs.')->group(function () {
-    Route::get('/create', [StockController::class, 'create'])->name('create');
-    Route::get('/', [StockController::class, 'index'])->name('index');
-    Route::get('/{id}', [StockController::class, 'show'])->name('show');
-    Route::post('/', [StockController::class, 'store'])->name('store');
-    Route::put('/{id}', [StockController::class, 'update'])->name('update');
-    Route::delete('/{id}', [StockController::class, 'destroy'])->name('destroy');
+    Route::get('/create', [StockOutController::class, 'create'])->name('create');
+    Route::get('/', [StockOutController::class, 'index'])->name('index');
+    Route::get('/{id}', [StockOutController::class, 'show'])->name('show');
+    Route::post('/', [StockOutController::class, 'store'])->name('store');
+    Route::put('/{id}', [StockOutController::class, 'update'])->name('update');
+    Route::delete('/{id}', [StockOutController::class, 'destroy'])->name('destroy');
 });

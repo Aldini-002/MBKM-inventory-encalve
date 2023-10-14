@@ -18,9 +18,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-    </div>
-
-    <div class="col-lg-12 mb-3">
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -152,7 +149,6 @@
     <!--end::Toolbar-->
 
     <!-- ========== Start table furnitures ========== -->
-
     <div class="card mb-5 mb-xl-8">
         <!--begin::Body-->
         <div class="card-body py-3">

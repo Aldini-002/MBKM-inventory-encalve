@@ -89,4 +89,9 @@ class Furniture extends Model
     {
         return $this->hasMany(FurnitureImage::class);
     }
+
+    public function stock_in_selected()
+    {
+        return $this->hasOne(FurnitureStockInSelected::class);
+    }
 }

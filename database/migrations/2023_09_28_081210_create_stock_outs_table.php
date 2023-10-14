@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('buyer');
             $table->string('name');
             $table->unsignedFloat('price');
-            $table->bigInteger('stock_out');
+            $table->bigInteger('amount');
             $table->bigInteger('initial_stock');
             $table->bigInteger('final_stock');
 

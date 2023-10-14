@@ -22,11 +22,10 @@ class FurnitureController extends Controller
     /**
      * get data
      */
-    public function index(Request $req)
+    public function index()
     {
         $with = ['applications', 'category', 'materials', 'finishings', 'furniture_images'];
-        $filters = $req->only(['search']);
-        $furnitures = Furniture::filter($filters)->with($with)->latest()->get();
+        $furnitures = Furniture::filter(request(['category', 'name', 'code']))->with($with)->latest()->get();
 
         return view('furnitures.index', [
             'furnitures' => $furnitures,
@@ -113,7 +112,7 @@ class FurnitureController extends Controller
             'finishing_id' => $req['finishing_id'],
             'code' => $req['code'] ?? 000000,
             'name' => $req['name'],
-            'image' => $req['image'] ?? '-',
+            'image' => $req['image'],
             'description' => $req['description'] ?? '-',
             'length' => $req['length'] ?? 0,
             'width' => $req['width'] ?? 0,
@@ -149,6 +148,7 @@ class FurnitureController extends Controller
             'finishing_id' => 'required',
             'code' => 'required|unique:furniture,code|numeric',
             'name' => 'required|min:3|unique:furniture,name',
+            'image' => 'required',
             'description' => 'required',
             'length' => 'required|numeric',
             'width' => 'required|numeric',
@@ -175,6 +175,18 @@ class FurnitureController extends Controller
         ];
 
         /**
+         * run validator
+         */
+        $validator = Validator::make($fields, $rules);
+
+        /**
+         * run validator
+         */
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        /**
          * create validator image
          */
         foreach ($fields['image'] as $data) {
@@ -186,18 +198,6 @@ class FurnitureController extends Controller
             if ($validatorImage->fails()) {
                 return redirect()->back()->withErrors($validatorImage)->withInput();
             }
-        }
-
-        /**
-         * run validator
-         */
-        $validator = Validator::make($fields, $rules);
-
-        /**
-         * run validator
-         */
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         /**
@@ -289,6 +289,22 @@ class FurnitureController extends Controller
     }
 
     /**
+     * view edit data
+     */
+    public function edit($id)
+    {
+        $with = ['applications', 'category', 'materials', 'finishings', 'furniture_images'];
+        $furniture = Furniture::with($with)->find($id);
+        if (!$furniture) {
+            return back()->with('warning', 'Data not found!');
+        }
+
+        return view('furnitures.edit', [
+            'furniture' => $furniture
+        ]);
+    }
+
+    /**
      * update data
      */
     public function update(Request $req, $id)
@@ -320,13 +336,13 @@ class FurnitureController extends Controller
             'packing' => $req['packing'] ?? $furniture['packing'],
             'port' => $req['port'] ?? $furniture['port'],
             'certification' => $req['certification'] ?? $furniture['certification'],
-            'qty_per_month' => $req['moq'] ?? $furniture['qty_per_month'],
+            'qty_per_month' => $req['qty_per_month'] ?? $furniture['qty_per_month'],
             'moq' => $req['moq'] ?? $furniture['moq'],
             'stock' => $req['stock'] ?? $furniture['stock'],
-            'convertible' => $req['convertible'] ?? $furniture['convertible'],
-            'adjustable' => $req['adjustable'] ?? $furniture['adjustable'],
-            'folded' => $req['folded'] ?? $furniture['folded'],
-            'extendable' => $req['extendable'] ?? $furniture['extendable'],
+            'convertible' => $req['convertible'] ?? 0,
+            'adjustable' => $req['adjustable'] ?? 0,
+            'folded' => $req['folded'] ?? 0,
+            'extendable' => $req['extendable'] ?? 0,
         ];
 
         /**
@@ -385,7 +401,7 @@ class FurnitureController extends Controller
 
         $furniture->update($fields);
 
-        return back()->with('success', 'update success');
+        return redirect('/furnitures/' . $id)->with('success', 'update success');
     }
 
     /**

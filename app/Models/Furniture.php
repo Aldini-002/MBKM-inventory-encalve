@@ -40,11 +40,19 @@ class Furniture extends Model
         'extendable',
     ];
 
-    public function scopeFilter($query, $filters)
+    public function scopeFilter($query, array $filters)
     {
-        if (isset($filters['search'])) {
-            $query->where('name', 'like', '%' . $filters['search'] . '%')->orWhere('code', 'like', '%' . $filters['search'] . '%');
-        }
+        $query->when($filters['category'] ?? false, function ($query, $category) {
+            $query->where('tag', 'like', '%' . $category . '%');
+        });
+
+        $query->when($filters['name'] ?? false, function ($query, $name) {
+            return $query->where('name', 'like', '%' . $name . '%');
+        });
+
+        $query->when($filters['code'] ?? false, function ($query, $code) {
+            return $query->where('code', 'like', '%' . $code . '%');
+        });
     }
 
     public function category()

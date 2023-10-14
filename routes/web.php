@@ -63,6 +63,7 @@ Route::prefix('/finishings')->name('finishings.')->group(function () {
  */
 Route::prefix('/furnitures')->name('furnitures.')->group(function () {
     Route::get('/create', [FurnitureController::class, 'create'])->name('create');
+    Route::get('/edit/{id}', [FurnitureController::class, 'edit'])->name('edit');
     Route::get('/', [FurnitureController::class, 'index'])->name('index');
     Route::get('/{id}', [FurnitureController::class, 'show'])->name('show');
     Route::post('/', [FurnitureController::class, 'store'])->name('store');
@@ -84,7 +85,18 @@ Route::prefix('/materials')->name('materials.')->group(function () {
 /**
  * stock_ins
  */
-Route::prefix('/stocks')->name('stocks.')->group(function () {
+Route::prefix('/stock_ins')->name('stock_ins.')->group(function () {
+    Route::get('/create', [StockController::class, 'create'])->name('create');
+    Route::get('/', [StockController::class, 'index'])->name('index');
+    Route::get('/{id}', [StockController::class, 'show'])->name('show');
+    Route::post('/', [StockController::class, 'store'])->name('store');
+    Route::put('/{id}', [StockController::class, 'update'])->name('update');
+    Route::delete('/{id}', [StockController::class, 'destroy'])->name('destroy');
+});
+/**
+ * stock_outs
+ */
+Route::prefix('/stock_outs')->name('stock_outs.')->group(function () {
     Route::get('/create', [StockController::class, 'create'])->name('create');
     Route::get('/', [StockController::class, 'index'])->name('index');
     Route::get('/{id}', [StockController::class, 'show'])->name('show');

@@ -152,51 +152,47 @@
     <!--end::Toolbar-->
 
     <!-- ========== Start table furnitures ========== -->
+
     <div class="card mb-5 mb-xl-8">
-        <!--begin::Header-->
-        <div class="card-header align-items-center gap-2 gap-md-5">
-            <!--begin::Card title-->
-            <div class="card-title">
-                <!--begin::Search-->
-                <div class="d-flex align-items-center position-relative my-1 bg-light">
-                    <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                    <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                    <!--end::Svg Icon-->
-                    <input type="text" class="form-control form-control-sm form-control-solid w-250px ps-14"
-                        placeholder="Search Product" />
-                </div>
-                <!--end::Search-->
-            </div>
-            <!--end::Card title-->
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                <div class="w-100 mw-150px bg-light">
-                    <!--begin::Select2-->
-                    <select class="form-select form-select-sm form-select-solid" data-control="select2"
-                        data-hide-search="true" data-placeholder="Status" data-kt-ecommerce-product-filter="status">
-                        <option></option>
-                        <option value="all">All</option>
-                        <option value="published">Published</option>
-                        <option value="scheduled">Scheduled</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                    <!--end::Select2-->
-                </div>
-            </div>
-            <!--end::Card toolbar-->
-        </div>
-        <!--end::Header-->
         <!--begin::Body-->
         <div class="card-body py-3">
+            <form action="/furnitures" method="get" class="w-100">
+                <div class="row py-lg-5">
+                    <div class="col-lg">
+                        <input type="text" class="form-control form-control-sm form-control-solid"
+                            placeholder="Search name" name="name" autocomplete="off" value='{{ request('name') }}' />
+                    </div>
+                    <div class="col-lg">
+                        <input type="text" class="form-control form-control-sm form-control-solid"
+                            placeholder="Search code" name="code" autocomplete="off" value='{{ request('code') }}' />
+                    </div>
+                    <div class="col-lg">
+                        <select class="form-select form-select-sm form-select-solid" data-control="select2"
+                            data-hide-search="true" name="category">
+                            <option value="" {{ !request('category') ? 'selected' : '' }}>All categories</option>
+                            @foreach ($categories as $data)
+                                <option value="{{ strtolower($data->name) }}"
+                                    {{ request('category') == strtolower($data->name) ? 'selected' : '' }}>
+                                    {{ $data->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg">
+                        <div class="d-flex gap-2">
+                            <a href="/furnitures" class="btn btn-sm btn-danger">Reset</a>
+                            <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <!--begin::Table container-->
             <div class="table-responsive">
                 <!--begin::Table-->
                 <table class="table table-row-bordered table-row-gray-700 align-middle gs-0 gy-4">
                     <!--begin::Table head-->
                     <thead>
-                        <tr class="fw-bold text-muted bg-dark">
+                        <tr class="fw-bold text-muted bg-light">
                             <th class="ps-4 min-w-300px">Info</th>
                             <th class="min-w-125px">Category</th>
                             <th class="min-w-125px">Stock</th>
@@ -214,7 +210,7 @@
                                     <div class="d-flex align-items-center">
                                         <span class="symbol symbol-50px">
                                             <span class="symbol-label"
-                                                style="background-image:url(/{{ $furniture->furniture_images[0]->url }});">
+                                                style="background-image:url({{ $furniture->furniture_images[0]->url }});">
                                             </span>
                                         </span>
                                         <div class="d-flex justify-content-start flex-column ms-5">
@@ -235,15 +231,20 @@
                                     <span class="text-gray-700 fw-bold d-block fs-6">{{ $furniture->size }}</span>
                                 </td>
                                 <td>
-                                    <span class="text-gray-700 fw-bold d-block fs-6">{{ $furniture->size }}</span>
+                                    <span class="text-gray-700 fw-bold d-block fs-6">{{ $furniture->price }}</span>
                                 </td>
-                                <td class="text-end d-flex align-items-center justify-content-end gap-1 ">
-                                    <a href="/furnitures/show" class="btn btn-primary fw-bold btn-sm">View</a>
-                                    <a href="/furnitures/edit" class="btn btn-warning text-dark fw-bold btn-sm">Edit</a>
-                                    <form action="/furnitures/{{ $furniture->id }}" method="POST">
-                                        @csrf
-                                        <a href="/furnitures/" class="btn btn-danger fw-bold btn-sm">Delete</a>
-                                    </form>
+                                <td class="text-end">
+                                    <div class="d-flex align-items-center justify-content-end gap-1">
+                                        <a href="/furnitures/{{ $furniture->id }}"
+                                            class="btn btn-primary fw-bold btn-sm">View</a>
+                                        <a href="/furnitures/edit/{{ $furniture->id }}?index=1"
+                                            class="btn btn-warning text-dark fw-bold btn-sm">Edit</a>
+                                        <form action="/furnitures/{{ $furniture->id }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <a href="/furnitures/" class="btn btn-danger fw-bold btn-sm">Delete</a>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -257,5 +258,4 @@
         <!--begin::Body-->
     </div>
     <!-- ========== End table furnitures ========== -->
-
 @endsection

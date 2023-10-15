@@ -45,12 +45,12 @@
             <!--begin::Actions-->
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <!--begin::Primary button-->
-                <form action="/stock_ins_selected/cancel" method="post">
+                <form action="/stock_outs_selected/cancel" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-sm fw-bold btn-danger">Cancel</button>
                 </form>
-                <a href="/stock_ins/create" class="btn btn-sm fw-bold btn-primary">Next</a>
+                <a href="/stock_outs/create" class="btn btn-sm fw-bold btn-primary">Next</a>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -81,7 +81,7 @@
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody>
-                        @foreach ($stock_ins_selected as $data)
+                        @foreach ($stock_outs_selected as $data)
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -114,7 +114,7 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="d-flex align-items-center justify-content-end gap-1">
-                                        <form action="/stock_ins_selected/{{ $data->id }}" method="POST">
+                                        <form action="/stock_outs_selected/{{ $data->id }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button type="submit"
@@ -171,7 +171,7 @@
                         <div class="separator border-gray-200"></div>
                         <!--end::Menu separator-->
                         <!--begin::Form-->
-                        <form action="/stock_ins_selected" method="get">
+                        <form action="/stock_outs_selected" method="get">
                             <div class="px-7 py-5">
                                 <!--begin::Input group-->
                                 <div class="mb-10">
@@ -225,7 +225,7 @@
                                 <!--end::Input group-->
                                 <!--begin::Actions-->
                                 <div class="d-flex justify-content-end">
-                                    <a href="/stock_ins_selected"
+                                    <a href="/stock_outs_selected"
                                         class="btn btn-sm btn-light btn-active-light-primary me-2">Reset</a>
                                     <button type="submit" class="btn btn-sm btn-primary">Apply</button>
                                 </div>
@@ -267,7 +267,7 @@
                     <!--begin::Table body-->
                     <tbody>
                         @foreach ($furnitures as $furniture)
-                            <tr class="{{ $furniture->stock_in_selected ? 'd-none' : '' }}">
+                            <tr class="{{ $furniture->stock_out_selected ? 'd-none' : '' }}">
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <span class="symbol symbol-50px">
@@ -298,7 +298,7 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="d-flex align-items-center justify-content-end gap-1">
-                                        <form action="/stock_ins_selected" method="POST">
+                                        <form action="/stock_outs_selected" method="POST">
                                             @csrf
                                             <input type="hidden" name="furniture_id" value="{{ $furniture->id }}">
                                             <button type="submit"

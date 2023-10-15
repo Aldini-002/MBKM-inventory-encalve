@@ -11,6 +11,7 @@ use App\Models\FurnitureFinishing;
 use App\Models\FurnitureImage;
 use App\Models\FurnitureMaterial;
 use App\Models\Material;
+use App\Models\Suplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;

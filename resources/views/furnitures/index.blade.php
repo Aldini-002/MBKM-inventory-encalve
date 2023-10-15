@@ -64,73 +64,67 @@
                         <div class="separator border-gray-200"></div>
                         <!--end::Menu separator-->
                         <!--begin::Form-->
-                        <div class="px-7 py-5">
-                            <!--begin::Input group-->
-                            <div class="mb-10">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">Status:</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div>
-                                    <select class="form-select form-select-solid" data-kt-select2="true"
-                                        data-placeholder="Select option" data-dropdown-parent="#kt_menu_63de6c5e04f34"
-                                        data-allow-clear="true">
-                                        <option></option>
-                                        <option value="1">Approved</option>
-                                        <option value="2">Pending</option>
-                                        <option value="2">In Process</option>
-                                        <option value="2">Rejected</option>
-                                    </select>
+                        <form action="/furnitures" method="get">
+                            <div class="px-7 py-5">
+                                <!--begin::Input group-->
+                                <div class="mb-10">
+                                    <!--begin::Label-->
+                                    <label class="form-label fw-semibold">Name furnitures:</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <div>
+                                        <input type="text" class="form-control form-control-sm form-control-solid"
+                                            placeholder="Search name" name="name" autocomplete="off"
+                                            value='{{ request('name') }}' />
+                                    </div>
+                                    <!--end::Input-->
                                 </div>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="mb-10">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">Member Type:</label>
-                                <!--end::Label-->
-                                <!--begin::Options-->
-                                <div class="d-flex">
-                                    <!--begin::Options-->
-                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                        <input class="form-check-input" type="checkbox" value="1" />
-                                        <span class="form-check-label">Author</span>
-                                    </label>
-                                    <!--end::Options-->
-                                    <!--begin::Options-->
-                                    <label class="form-check form-check-sm form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox" value="2" checked="checked" />
-                                        <span class="form-check-label">Customer</span>
-                                    </label>
-                                    <!--end::Options-->
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="mb-10">
+                                    <!--begin::Label-->
+                                    <label class="form-label fw-semibold">Code furnitures</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <div>
+                                        <input type="text" class="form-control form-control-sm form-control-solid"
+                                            placeholder="Search code" name="code" autocomplete="off"
+                                            value='{{ request('code') }}' />
+                                    </div>
+                                    <!--end::Input-->
                                 </div>
-                                <!--end::Options-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="mb-10">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">Notifications:</label>
-                                <!--end::Label-->
-                                <!--begin::Switch-->
-                                <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="" name="notifications"
-                                        checked="checked" />
-                                    <label class="form-check-label">Enabled</label>
+                                <!--end::Input group-->
+                                <!--begin::Input group-->
+                                <div class="mb-10">
+                                    <!--begin::Label-->
+                                    <label class="form-label fw-semibold">Categiries</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <div>
+                                        <select class="form-select form-select-sm form-select-solid" data-control="select2"
+                                            data-hide-search="true" name="category">
+                                            <option value="" {{ !request('category') ? 'selected' : '' }}>All
+                                                categories</option>
+                                            @foreach ($categories as $data)
+                                                <option value="{{ strtolower($data->name) }}"
+                                                    {{ request('category') == strtolower($data->name) ? 'selected' : '' }}>
+                                                    {{ $data->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <!--end::Input-->
                                 </div>
-                                <!--end::Switch-->
+                                <!--end::Input group-->
+                                <!--begin::Actions-->
+                                <div class="d-flex justify-content-end">
+                                    <a href="/furnitures"
+                                        class="btn btn-sm btn-light btn-active-light-primary me-2">Reset</a>
+                                    <button type="submit" class="btn btn-sm btn-primary">Apply</button>
+                                </div>
+                                <!--end::Actions-->
                             </div>
-                            <!--end::Input group-->
-                            <!--begin::Actions-->
-                            <div class="d-flex justify-content-end">
-                                <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2"
-                                    data-kt-menu-dismiss="true">Reset</button>
-                                <button type="submit" class="btn btn-sm btn-primary"
-                                    data-kt-menu-dismiss="true">Apply</button>
-                            </div>
-                            <!--end::Actions-->
-                        </div>
+                        </form>
                         <!--end::Form-->
                     </div>
                     <!--end::Menu 1-->
@@ -152,36 +146,6 @@
     <div class="card mb-5 mb-xl-8">
         <!--begin::Body-->
         <div class="card-body py-3">
-            <form action="/furnitures" method="get" class="w-100">
-                <div class="row py-lg-5">
-                    <div class="col-lg">
-                        <input type="text" class="form-control form-control-sm form-control-solid"
-                            placeholder="Search name" name="name" autocomplete="off" value='{{ request('name') }}' />
-                    </div>
-                    <div class="col-lg">
-                        <input type="text" class="form-control form-control-sm form-control-solid"
-                            placeholder="Search code" name="code" autocomplete="off" value='{{ request('code') }}' />
-                    </div>
-                    <div class="col-lg">
-                        <select class="form-select form-select-sm form-select-solid" data-control="select2"
-                            data-hide-search="true" name="category">
-                            <option value="" {{ !request('category') ? 'selected' : '' }}>All categories</option>
-                            @foreach ($categories as $data)
-                                <option value="{{ strtolower($data->name) }}"
-                                    {{ request('category') == strtolower($data->name) ? 'selected' : '' }}>
-                                    {{ $data->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-lg">
-                        <div class="d-flex gap-2">
-                            <a href="/furnitures" class="btn btn-sm btn-danger">Reset</a>
-                            <button type="submit" class="btn btn-sm btn-primary">Filter</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
             <!--begin::Table container-->
             <div class="table-responsive">
                 <!--begin::Table-->
@@ -193,7 +157,7 @@
                             <th class="min-w-125px">Category</th>
                             <th class="min-w-125px">Stock</th>
                             <th class="min-w-200px">Size</th>
-                            <th class="min-w-125px">Price</th>
+                            <th class="min-w-125px">Price<span class="badge badge-light-success">$</span></th>
                             <th class="min-w-200px text-end"></th>
                         </tr>
                     </thead>
@@ -227,18 +191,21 @@
                                     <span class="text-gray-700 fw-bold d-block fs-6">{{ $furniture->size }}</span>
                                 </td>
                                 <td>
-                                    <span class="text-gray-700 fw-bold d-block fs-6">{{ $furniture->price }}</span>
+                                    <span class="text-gray-700 fw-bold d-block fs-6"><span
+                                            class="text-success">$</span>{{ number_format($furniture->price, 2) }}</span>
                                 </td>
                                 <td class="text-end">
                                     <div class="d-flex align-items-center justify-content-end gap-1">
                                         <a href="/furnitures/{{ $furniture->id }}"
-                                            class="btn btn-primary fw-bold btn-sm">View</a>
+                                            class="btn btn-light-primary fw-bold btn-sm">View</a>
                                         <a href="/furnitures/edit/{{ $furniture->id }}?index=1"
-                                            class="btn btn-warning text-dark fw-bold btn-sm">Edit</a>
+                                            class="btn btn-light-warning fw-bold btn-sm">Edit</a>
                                         <form action="/furnitures/{{ $furniture->id }}" method="POST">
                                             @csrf
                                             @method('delete')
-                                            <a href="/furnitures/" class="btn btn-danger fw-bold btn-sm">Delete</a>
+                                            <button
+                                                onclick="return confirm('Delete {{ $furniture->name }} ({{ $furniture->code }})')"
+                                                type="submit" class="btn btn-light-danger fw-bold btn-sm">Delete</button>
                                         </form>
                                     </div>
                                 </td>

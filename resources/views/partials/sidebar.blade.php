@@ -115,7 +115,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'categories')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="/categories"
+                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
                         class="menu-link {{ str_contains(request()->route()->getName(),'categories')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -129,7 +129,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'materials')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="/materials"
+                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
                         class="menu-link {{ str_contains(request()->route()->getName(),'materials')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -143,7 +143,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'finishings')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="/finishings"
+                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
                         class="menu-link {{ str_contains(request()->route()->getName(),'finishings')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -157,7 +157,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'applications')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="/applications"
+                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
                         class="menu-link {{ str_contains(request()->route()->getName(),'applications')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -175,12 +175,14 @@
     <!--end::sidebar menu-->
     <!--begin::Footer-->
     <div class="app-sidebar-footer flex-column-auto py-2 px-6" id="kt_app_sidebar_footer">
-        <a href="#" class="btn btn-success btn-sm w-100">
+        <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
+            class="btn btn-success btn-sm w-100">
             <span class="btn-label">My Profile</span>
         </a>
     </div>
     <div class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6" id="kt_app_sidebar_footer">
-        <a href="#" class="btn btn-danger btn-sm w-100">
+        <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
+            class="btn btn-danger btn-sm w-100">
             <span class="btn-label">Logout</span>
         </a>
     </div>

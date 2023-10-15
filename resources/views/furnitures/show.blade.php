@@ -33,7 +33,8 @@
     <div class="card mb-5 mb-xl-10">
         <div class="card-body pt-9 pb-0">
             <div class="text-center mb-10">
-                <img src="{{ $furniture->furniture_images[0]->url }}" alt="image" class="rounded w-lg-300px w-100" />
+                <img src="{{ $furniture->furniture_images[0]->url }}" alt="image"
+                    class="rounded w-lg-300px h-lg-300px w-100" />
             </div>
         </div>
     </div>
@@ -50,6 +51,12 @@
             <div class="text-end d-flex align-items-center gap-1">
                 <a href="/furnitures" class="btn btn-sm btn-dark">Back</a>
                 <a href="/furnitures/edit/{{ $furniture->id }}" class="btn btn-sm btn-warning text-dark">Edit details</a>
+                <form action="/furnitures/{{ $furniture->id }}" method="POST">
+                    @csrf
+                    @method('delete')
+                    <button onclick="return confirm('Delete {{ $furniture->name }} ({{ $furniture->code }})')"
+                        type="submit" class="btn btn-danger fw-bold btn-sm">Delete</button>
+                </form>
             </div>
         </div>
         <!--begin::Card header-->
@@ -243,11 +250,13 @@
             <!--begin::Row-->
             <div class="row mb-7">
                 <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Price</label>
+                <label class="col-lg-2 fw-semibold text-muted">Price <span
+                        class="badge badge-light-success">$</span></label>
                 <!--end::Label-->
                 <!--begin::Col-->
                 <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->price }}</span>
+                    <span class="fw-bold fs-6 text-gray-800"><span
+                            class="text-success">$</span>{{ number_format($furniture->price, 2) }}</span>
                 </div>
                 <!--end::Col-->
             </div>

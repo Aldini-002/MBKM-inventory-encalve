@@ -11,21 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_out', function (Blueprint $table) {
+        Schema::create('furniture_stock_out_selected', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('furniture_id');
-            $table->unsignedBigInteger('buyer_id');
-            $table->string('code');
-            $table->string('name');
-            $table->unsignedFloat('price');
-            $table->bigInteger('amount');
-            $table->bigInteger('initial_stock');
-            $table->bigInteger('final_stock');
+            $table->timestamps();
 
             $table->foreign('furniture_id')->references('id')->on('furniture')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('buyer_id')->references('id')->on('buyer')->onDelete('cascade')->onUpdate('cascade');
-
-            $table->timestamps();
         });
     }
 
@@ -34,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_out');
+        Schema::dropIfExists('furniture_stock_out_selected');
     }
 };

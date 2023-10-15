@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Application;
-use App\Models\Category;
-use App\Models\Finishing;
 use App\Models\Furniture;
 use App\Models\FurnitureStockInSelected;
-use App\Models\Material;
+use App\Models\FurnitureStockOutSelected;
 use App\Models\StockIn;
 use App\Models\Suplier;
 use Illuminate\Http\Request;
@@ -21,7 +18,28 @@ class StockInController extends Controller
      */
     public function index()
     {
-        return view('stock_ins.index');
+        FurnitureStockInSelected::truncate();
+        FurnitureStockOutSelected::truncate();
+
+        $supliers = Suplier::latest()->get();
+        foreach ($supliers as $data) {
+            if (!count($data->stock_ins)) {
+                $data->delete();
+            }
+        }
+
+
+        return view('stock_ins.index', [
+            'supliers' => $supliers
+        ]);
+    }
+
+    /**
+     * get data by id
+     */
+    public function show($id)
+    {
+        return back()->with('warning', 'masih dalam pengembangan');
     }
 
     /**
@@ -105,7 +123,7 @@ class StockInController extends Controller
             $fields['final_stock'] = $fields['amount'][$i] + $fields['initial_stock'][$i];
 
             StockIn::create([
-                'furniture_id' => $fields['furniture_id'][0],
+                'furniture_id' => $data,
                 'suplier_id' => $fields['suplier_id'],
                 'code' => Str::uuid(),
                 'name' => $fields['name'][$i],

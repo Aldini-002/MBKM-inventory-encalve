@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FinishingController;
 use App\Http\Controllers\FurnitureController;
 use App\Http\Controllers\FurnitureStockInSelectedController;
+use App\Http\Controllers\FurnitureStockOutSelectedController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\StockInController;
 use App\Http\Controllers\StockOutController;
@@ -90,7 +91,6 @@ Route::prefix('/materials')->name('materials.')->group(function () {
  */
 Route::prefix('/stock_ins')->name('stock_ins.')->group(function () {
     Route::get('/create', [StockInController::class, 'create'])->name('create');
-    Route::get('/choose_furniture', [StockInController::class, 'choose_furniture'])->name('choose_furniture');
     Route::get('/', [StockInController::class, 'index'])->name('index');
     Route::get('/{id}', [StockInController::class, 'show'])->name('show');
     Route::post('/', [StockInController::class, 'store'])->name('store');
@@ -120,4 +120,16 @@ Route::prefix('/stock_outs')->name('stock_outs.')->group(function () {
     Route::post('/', [StockOutController::class, 'store'])->name('store');
     Route::put('/{id}', [StockOutController::class, 'update'])->name('update');
     Route::delete('/{id}', [StockOutController::class, 'destroy'])->name('destroy');
+});
+
+/**
+ * stock_outs_selected
+ */
+Route::prefix('/stock_outs_selected')->name('stock_outs.selected')->group(function () {
+    Route::get('/create', [FurnitureStockOutSelectedController::class, 'create'])->name('create');
+    Route::get('/', [FurnitureStockOutSelectedController::class, 'index'])->name('index');
+    Route::get('/{id}', [FurnitureStockOutSelectedController::class, 'show'])->name('show');
+    Route::post('/', [FurnitureStockOutSelectedController::class, 'store'])->name('store');
+    Route::put('/{id}', [FurnitureStockOutSelectedController::class, 'update'])->name('update');
+    Route::delete('/{id}', [FurnitureStockOutSelectedController::class, 'destroy'])->name('destroy');
 });

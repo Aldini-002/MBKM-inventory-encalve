@@ -75,9 +75,19 @@ class Furniture extends Model
         return $this->belongsToMany(Finishing::class, 'furniture_finishing', 'furniture_id', 'finishing_id');
     }
 
+    public function furniture_images()
+    {
+        return $this->hasMany(FurnitureImage::class);
+    }
+
     public function stock_ins()
     {
         return $this->hasMany(StockIn::class);
+    }
+
+    public function stock_in_selected()
+    {
+        return $this->hasOne(FurnitureStockInSelected::class);
     }
 
     public function stock_outs()
@@ -85,13 +95,8 @@ class Furniture extends Model
         return $this->hasMany(StockOut::class);
     }
 
-    public function furniture_images()
+    public function stock_out_selected()
     {
-        return $this->hasMany(FurnitureImage::class);
-    }
-
-    public function stock_in_selected()
-    {
-        return $this->hasOne(FurnitureStockInSelected::class);
+        return $this->hasOne(FurnitureStockOutSelected::class);
     }
 }

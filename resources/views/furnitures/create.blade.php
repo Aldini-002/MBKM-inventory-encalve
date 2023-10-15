@@ -363,7 +363,8 @@
                     <!--begin::Input group-->
                     <div class="row mb-6">
                         <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Price</label>
+                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Price <span
+                                class="badge badge-light-success">$</span></label>
                         <!--end::Label-->
                         <!--begin::Col-->
                         <div class="col-lg fv-row ">

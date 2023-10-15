@@ -37,7 +37,8 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Stock in</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Stock out
+                </h1>
                 <!--end::Title-->
             </div>
             <!--end::Page title-->
@@ -138,7 +139,7 @@
                 <!--begin::Secondary button-->
                 <!--end::Secondary button-->
                 <!--begin::Primary button-->
-                <a href="/stock_ins_selected" class="btn btn-sm fw-bold btn-primary">Stock in</a>
+                <a href="/stock_outs_selected" class="btn btn-sm fw-bold btn-primary">Stock out</a>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -158,9 +159,9 @@
                     <thead>
                         <tr class="fw-bold text-muted bg-light">
                             <th class="ps-4 min-w-300px">Info</th>
-                            <th class="min-w-125px text-end">Suplier</th>
+                            <th class="min-w-125px text-end">Buyer</th>
                             <th class="min-w-125px text-end">Initial stock</th>
-                            <th class="min-w-125px text-end">Stock in</th>
+                            <th class="min-w-125px text-end">Stock out</th>
                             <th class="min-w-125px text-end">Final stock</th>
                             <th class="min-w-125px text-end"></th>
                         </tr>
@@ -168,7 +169,7 @@
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody>
-                        @foreach ($supliers as $data)
+                        @foreach ($buyers as $data)
                             <tr>
                                 <td colspan="5"><span class="badge badge-light-success">{{ $data->created_at }}</span>
                                 </td>
@@ -177,7 +178,7 @@
                                         class="btn btn-light-primary btn-sm">View details</a>
                                 </td>
                             </tr>
-                            @foreach ($data->stock_ins as $data)
+                            @foreach ($data->stock_outs as $data)
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -195,7 +196,7 @@
                                     </td>
                                     <td>
                                         <span
-                                            class="text-gray-700 fw-bold d-block fs-6 text-end">{{ $data->suplier->name }}</span>
+                                            class="text-gray-700 fw-bold d-block fs-6 text-end">{{ $data->buyer->name }}</span>
                                     </td>
                                     <td>
                                         <span

@@ -31,7 +31,7 @@
 
 
     <!--begin::Toolbar-->
-    <form action="/stock_ins" method="post">
+    <form action="/stock_outs" method="post">
         @csrf
         <div id="kt_app_toolbar" class="app-toolbar pb-3 pb-lg-6">
             <!--begin::Toolbar container-->
@@ -39,8 +39,7 @@
                 <!--begin::Page title-->
                 <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                     <!--begin::Title-->
-                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Choose
-                        furnitures
+                    <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Stock out
                     </h1>
                     <!--end::Title-->
                 </div>
@@ -48,8 +47,8 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <!--begin::Primary button-->
-                    <a href="/stock_ins_selected" class="btn btn-sm fw-bold btn-danger">Back</a>
-                    <button type="submit" class="btn btn-sm fw-bold btn-primary">Stock in</button>
+                    <a href="/stock_outs_selected" class="btn btn-sm fw-bold btn-danger">Back</a>
+                    <button type="submit" class="btn btn-sm fw-bold btn-primary">Stock out</button>
                     <!--end::Primary button-->
                 </div>
                 <!--end::Actions-->
@@ -64,11 +63,11 @@
             <div class="card-body py-3">
                 <div class="row py-lg-5">
                     <div class="col-lg-2">
-                        <label class="col-form-label col-form-label-sm">Suplier</label>
+                        <label class="col-form-label col-form-label-sm">Buyer</label>
                     </div>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control form-control-sm form-control-solid" placeholder="Suplier"
-                            name="suplier" autocomplete="off" value='{{ old('suplier') }}' />
+                        <input type="text" class="form-control form-control-sm form-control-solid" placeholder="buyer"
+                            name="buyer" autocomplete="off" value='{{ old('buyer') }}' />
                     </div>
                 </div>
                 <div class="row py-lg-5">
@@ -97,14 +96,14 @@
                             <tr class="fw-bold text-muted bg-light">
                                 <th class="ps-4 min-w-300px">Info</th>
                                 <th class="min-w-125px text-center">Initial stock</th>
-                                <th class="min-w-125px text-center">Stock in</th>
+                                <th class="min-w-125px text-center">Stock out</th>
                                 <th class="min-w-125px text-center">Final stock</th>
                             </tr>
                         </thead>
                         <!--end::Table head-->
                         <!--begin::Table body-->
                         <tbody>
-                            @foreach ($stock_ins_selected as $data)
+                            @foreach ($stock_outs_selected as $data)
                                 <input type="hidden" name="furniture_id[]" value="{{ $data->furniture->id }}">
                                 <input type="hidden" name="name[]" value="{{ $data->furniture->name }}">
                                 <input type="hidden" name="price[]" value="{{ $data->furniture->price }}">
@@ -155,7 +154,7 @@
     </form>
     <!-- ========== End table furnitures ========== -->
 
-    @foreach ($stock_ins_selected as $data)
+    @foreach ($stock_outs_selected as $data)
         <script>
             const initial_stock_{{ $data->id }} = document.querySelector('#initial_stock_{{ $data->id }}')
             const final_stock_{{ $data->id }} = document.querySelector('#final_stock_{{ $data->id }}')
@@ -164,10 +163,17 @@
             amount_{{ $data->id }}.addEventListener('change', function(e) {
                 e.preventDefault()
 
-                final_stock_{{ $data->id }}.innerHTML = parseInt(amount_{{ $data->id }}.value ?? 0) +
-                    parseInt(initial_stock_{{ $data->id }}.innerHTML)
+                final_stock_{{ $data->id }}.innerHTML = parseInt(initial_stock_{{ $data->id }}.innerHTML) -
+                    parseInt(amount_{{ $data->id }}.value ?? 0)
+
 
                 if (final_stock_{{ $data->id }}.innerHTML < 0) {
+                    final_stock_{{ $data->id }}.innerHTML = parseInt(0)
+                    amount_{{ $data->id }}.value = parseInt(initial_stock_{{ $data->id }}.innerHTML)
+                }
+
+                if (parseInt(final_stock_{{ $data->id }}.innerHTML) > parseInt(initial_stock_{{ $data->id }}
+                        .innerHTML)) {
                     final_stock_{{ $data->id }}.innerHTML = parseInt(initial_stock_{{ $data->id }}.innerHTML)
                     amount_{{ $data->id }}.value = parseInt(0)
                 }
@@ -176,10 +182,17 @@
             amount_{{ $data->id }}.addEventListener('keyup', function(e) {
                 e.preventDefault()
 
-                final_stock_{{ $data->id }}.innerHTML = parseInt(amount_{{ $data->id }}.value ?? 0) +
-                    parseInt(initial_stock_{{ $data->id }}.innerHTML)
+                final_stock_{{ $data->id }}.innerHTML =
+                    parseInt(initial_stock_{{ $data->id }}.innerHTML) - parseInt(amount_{{ $data->id }}
+                        .value ?? 0)
 
                 if (final_stock_{{ $data->id }}.innerHTML < 0) {
+                    final_stock_{{ $data->id }}.innerHTML = parseInt(0)
+                    amount_{{ $data->id }}.value = parseInt(initial_stock_{{ $data->id }}.innerHTML)
+                }
+
+                if (parseInt(final_stock_{{ $data->id }}.innerHTML) > parseInt(initial_stock_{{ $data->id }}
+                        .innerHTML)) {
                     final_stock_{{ $data->id }}.innerHTML = parseInt(initial_stock_{{ $data->id }}.innerHTML)
                     amount_{{ $data->id }}.value = parseInt(0)
                 }

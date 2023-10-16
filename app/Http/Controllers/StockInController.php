@@ -96,7 +96,7 @@ class StockInController extends Controller
         /**
          * suplier manage
          */
-        if ($req->suplier) {
+        if (strlen($fields['suplier'])) {
             $validatorSuplier = Validator::make($fields, ['suplier' => 'required', 'description' => 'required']);
             /**
              * run validator

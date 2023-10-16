@@ -95,7 +95,7 @@ class StockOutController extends Controller
         /**
          * buyer manage
          */
-        if ($req->buyer) {
+        if (strlen($fields['buyer'])) {
             $validatorBuyer = Validator::make($fields, ['buyer' => 'required', 'description' => 'required']);
             /**
              * run validator

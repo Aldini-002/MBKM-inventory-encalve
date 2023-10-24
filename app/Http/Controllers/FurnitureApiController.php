@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 
-class FurnitureController extends Controller
+class FurnitureApiController extends Controller
 {
     /**
      * get data
@@ -23,8 +23,7 @@ class FurnitureController extends Controller
     public function index(Request $req)
     {
         $with = ['applications', 'category', 'materials', 'finishings', 'furniture_images'];
-        $filters = $req->only(['search']);
-        $furnitures = Furniture::filter($filters)->with($with)->latest()->get();
+        $furnitures = Furniture::filter(request(['category', 'name', 'code']))->with($with)->latest()->get();
 
         return response()->json([
             'message' => 'success',

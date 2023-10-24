@@ -3,7 +3,7 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FinishingController;
-use App\Http\Controllers\FurnitureController;
+use App\Http\Controllers\FurnitureApiController;
 use App\Http\Controllers\MaterialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -65,11 +65,11 @@ Route::prefix('/finishings')->name('finishings.')->group(function () {
  * furnitures
  */
 Route::prefix('/furnitures')->name('furnitures.')->group(function () {
-    Route::get('/', [FurnitureController::class, 'index'])->name('index');
-    Route::get('/{id}', [FurnitureController::class, 'show'])->name('show');
-    Route::post('/', [FurnitureController::class, 'store'])->name('store');
-    Route::put('/{id}', [FurnitureController::class, 'update'])->name('update');
-    Route::delete('/{id}', [FurnitureController::class, 'destroy'])->name('destroy');
+    Route::get('/', [FurnitureApiController::class, 'index'])->name('index');
+    Route::get('/{id}', [FurnitureApiController::class, 'show'])->name('show');
+    Route::post('/', [FurnitureApiController::class, 'store'])->name('store');
+    Route::put('/{id}', [FurnitureApiController::class, 'update'])->name('update');
+    Route::delete('/{id}', [FurnitureApiController::class, 'destroy'])->name('destroy');
 });
 /**
  * materials

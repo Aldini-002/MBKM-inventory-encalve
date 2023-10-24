@@ -115,7 +115,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'categories')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
+                    <a href="/categories""
                         class="menu-link {{ str_contains(request()->route()->getName(),'categories')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -129,7 +129,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'materials')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
+                    <a href="/materials"
                         class="menu-link {{ str_contains(request()->route()->getName(),'materials')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -143,7 +143,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'finishings')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
+                    <a href="/finishings"
                         class="menu-link {{ str_contains(request()->route()->getName(),'finishings')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
@@ -157,7 +157,7 @@
                 <div
                     class="menu-item {{ str_contains(request()->route()->getName(),'applications')? 'here show': '' }} menu-accordion">
                     <!--begin:Menu link-->
-                    <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
+                    <a href="/applications"
                         class="menu-link {{ str_contains(request()->route()->getName(),'applications')? 'active': '' }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>

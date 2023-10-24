@@ -126,19 +126,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="text-gray-700 fw-bold d-block fs-6 text-center"
+                                        <span class="text-primary fw-bold d-block fs-6 text-center"
                                             id="initial_stock_{{ $data->id }}">{{ $data->furniture->stock }}</span>
                                     </td>
                                     <td>
                                         <div>
                                             <input type="number"
-                                                class="form-control form-control-sm form-control-solid text-center"
+                                                class="form-control form-control-sm form-control-solid text-center text-success"
                                                 name="amount[]" id="amount_{{ $data->id }}" placeholder="amount"
                                                 autocomplete="off" value="0">
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="text-gray-700 fw-bold d-block fs-6 text-center"
+                                        <span class="text-dark fw-bold d-block fs-6 text-center"
                                             id="final_stock_{{ $data->id }}">{{ $data->furniture->stock }}</span>
                                     </td>
                                 </tr>

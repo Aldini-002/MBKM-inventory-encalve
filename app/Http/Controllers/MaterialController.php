@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Furniture;
+use App\Models\FurnitureMaterial;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,11 +16,12 @@ class MaterialController extends Controller
     public function index()
     {
         $materials = Material::latest()->get();
+        $furniture_materials = FurnitureMaterial::latest()->get();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $materials
-        ], 200);
+        return view('materials.index', [
+            'materials' => $materials,
+            'furniture_materials' => $furniture_materials
+        ]);
     }
 
     /**

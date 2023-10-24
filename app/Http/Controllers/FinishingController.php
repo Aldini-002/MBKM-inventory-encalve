@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Finishing;
+use App\Models\FurnitureFinishing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,11 +16,12 @@ class FinishingController extends Controller
     public function index()
     {
         $finishings = Finishing::latest()->get();
+        $furniture_finishings = FurnitureFinishing::latest()->get();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $finishings
-        ], 200);
+        return view('finishings.index', [
+            'finishings' => $finishings,
+            'furniture_finishings' => $furniture_finishings
+        ]);
     }
 
     /**

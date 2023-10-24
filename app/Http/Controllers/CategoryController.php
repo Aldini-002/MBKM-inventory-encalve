@@ -15,10 +15,9 @@ class CategoryController extends Controller
     {
         $categories = Category::latest()->get();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $categories
-        ], 200);
+        return view('categories.index', [
+            'categories' => $categories
+        ]);
     }
 
     /**

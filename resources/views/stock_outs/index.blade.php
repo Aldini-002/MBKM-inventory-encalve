@@ -200,15 +200,14 @@
                                     </td>
                                     <td>
                                         <span
-                                            class="text-gray-700 fw-bold d-block fs-6 text-end">{{ $data->initial_stock }}</span>
+                                            class="text-primary fw-bold d-block fs-6 text-end">{{ $data->initial_stock }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-dark fw-bold d-block fs-6 text-end">{{ $data->amount }}</span>
                                     </td>
                                     <td>
                                         <span
-                                            class="text-gray-700 fw-bold d-block fs-6 text-end">{{ $data->amount }}</span>
-                                    </td>
-                                    <td>
-                                        <span
-                                            class="text-gray-700 fw-bold d-block fs-6 text-end">{{ $data->final_stock }}</span>
+                                            class="text-danger fw-bold d-block fs-6 text-end">{{ $data->final_stock }}</span>
                                     </td>
                                     <td></td>
                                 </tr>

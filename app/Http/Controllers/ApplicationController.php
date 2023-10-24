@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\FurnitureApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,11 +15,12 @@ class ApplicationController extends Controller
     public function index()
     {
         $applications = Application::latest()->get();
+        $furniture_applications = FurnitureApplication::latest()->get();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $applications
-        ], 200);
+        return view('applications.index', [
+            'applications' => $applications,
+            'furniture_applications' => $furniture_applications
+        ]);
     }
 
     /**

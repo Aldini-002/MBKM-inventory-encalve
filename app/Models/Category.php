@@ -15,6 +15,13 @@ class Category extends Model
 
     protected $with = ['furnitures'];
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        });
+    }
+
     public function furnitures()
     {
         return $this->hasMany(Furniture::class);

@@ -1,190 +1,224 @@
-<div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
-    data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px"
-    data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
-    <!--begin::Logo-->
-    <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
-        <!--begin::Logo image-->
-        <a href="/">
-            <img alt="Logo" src="/metronic/media/logos/default-dark.svg" class="h-25px app-sidebar-logo-default" />
-            <img alt="Logo" src="/metronic/media/logos/default-small.svg"
-                class="h-20px app-sidebar-logo-minimize" />
-        </a>
-        <!--end::Logo image-->
-        <!--begin::Sidebar toggle-->
-        <div id="kt_app_sidebar_toggle"
-            class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate"
-            data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
-            data-kt-toggle-name="app-sidebar-minimize">
-            <!--begin::Svg Icon | path: icons/duotune/arrows/arr079.svg-->
-            <span class="svg-icon svg-icon-2 rotate-180">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path opacity="0.5"
-                        d="M14.2657 11.4343L18.45 7.25C18.8642 6.83579 18.8642 6.16421 18.45 5.75C18.0358 5.33579 17.3642 5.33579 16.95 5.75L11.4071 11.2929C11.0166 11.6834 11.0166 12.3166 11.4071 12.7071L16.95 18.25C17.3642 18.6642 18.0358 18.6642 18.45 18.25C18.8642 17.8358 18.8642 17.1642 18.45 16.75L14.2657 12.5657C13.9533 12.2533 13.9533 11.7467 14.2657 11.4343Z"
-                        fill="currentColor" />
-                    <path
-                        d="M8.2657 11.4343L12.45 7.25C12.8642 6.83579 12.8642 6.16421 12.45 5.75C12.0358 5.33579 11.3642 5.33579 10.95 5.75L5.40712 11.2929C5.01659 11.6834 5.01659 12.3166 5.40712 12.7071L10.95 18.25C11.3642 18.6642 12.0358 18.6642 12.45 18.25C12.8642 17.8358 12.8642 17.1642 12.45 16.75L8.2657 12.5657C7.95328 12.2533 7.95328 11.7467 8.2657 11.4343Z"
-                        fill="currentColor" />
-                </svg>
-            </span>
-            <!--end::Svg Icon-->
-        </div>
-        <!--end::Sidebar toggle-->
-    </div>
-    <!--end::Logo-->
-    <!--begin::sidebar menu-->
-    <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
-        <!--begin::Menu wrapper-->
-        <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
-            data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto"
-            data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
-            data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
-            <!--begin::Menu-->
-            <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu"
-                data-kt-menu="true" data-kt-menu-expand="false">
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item menu-accordion {{ str_contains(request()->route()->getName(),'dashboard')? 'here show': '' }}">
-                    <!--begin:Menu link-->
-                    <a href="/"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'dashboard')? 'active': '' }}">
-                        <span class="menu-title">Dashboard</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'furnitures')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/furnitures"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'furnitures')? 'active': '' }}">
-                        <span class="menu-title">Furnitures</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+        <img src="/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+        <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
 
-                <!--begin:Menu item-->
-                <div class="menu-item pt-5">
-                    <!--begin:Menu content-->
-                    <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">Stock</span>
-                    </div>
-                    <!--end:Menu content-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'stock_ins')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/stock_ins"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'stock_ins')? 'active': '' }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Stock in</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'stock_outs')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/stock_outs"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'stock_outs')? 'active': '' }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Stock out</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div class="menu-item pt-5">
-                    <!--begin:Menu content-->
-                    <div class="menu-content">
-                        <span class="menu-heading fw-bold text-uppercase fs-7">Settings</span>
-                    </div>
-                    <!--end:Menu content-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'categories')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/categories""
-                        class="menu-link {{ str_contains(request()->route()->getName(),'categories')? 'active': '' }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Categories</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'materials')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/materials"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'materials')? 'active': '' }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Materials</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'finishings')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/finishings"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'finishings')? 'active': '' }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Finishings</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div
-                    class="menu-item {{ str_contains(request()->route()->getName(),'applications')? 'here show': '' }} menu-accordion">
-                    <!--begin:Menu link-->
-                    <a href="/applications"
-                        class="menu-link {{ str_contains(request()->route()->getName(),'applications')? 'active': '' }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">Applications</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
-            <!--end::Menu-->
+            <div class="info">
+                <a href="#" class="d-block">Alexander Pierce</a>
+            </div>
         </div>
-        <!--end::Menu wrapper-->
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a href="/"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'dashboard')? 'active': '' }}">
+                        <i class="nav-icon far fa-calendar-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'furnitures')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'furnitures')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Furniture
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/furnitures"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'furnitures')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar furniture</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'categories')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'categories')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Kategori
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/categories"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'categories')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar kategori</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'materials')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'materials')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Material
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/materials"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'materials')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar material</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'finishings')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'finishings')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Finishing
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/finishings"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'finishings')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar finishing</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'applications')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'applications')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Application
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/applications"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'applications')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar application</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'stockins')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'stockins')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Stok masuk
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/stockins"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'stockins')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Stok masuk</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'stockouts')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'stockouts')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Stok keluar
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/stockouts"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'stockouts')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Stok keluar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'supliers')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'supliers')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Pemasok
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/supliers"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'supliers')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pemasok</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item {{ str_contains(request()->route()->getName(),'buyers')? 'menu-open': '' }}">
+                    <a href="#"
+                        class="nav-link {{ str_contains(request()->route()->getName(),'buyers')? 'active': '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Pembeli
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/buyers"
+                                class="nav-link {{ str_contains(request()->route()->getName(),'buyers')? 'active': '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pembeli</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-header">EXAMPLES</li>
+
+                <li class="nav-item">
+                    <a href="pages/calendar.html" class="nav-link">
+                        <i class="nav-icon far fa-calendar-alt"></i>
+                        <p>
+                            Calendar
+                            <span class="badge badge-info right">2</span>
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
     </div>
-    <!--end::sidebar menu-->
-    <!--begin::Footer-->
-    <div class="app-sidebar-footer flex-column-auto py-2 px-6" id="kt_app_sidebar_footer">
-        <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
-            class="btn btn-success btn-sm w-100">
-            <span class="btn-label">My Profile</span>
-        </a>
-    </div>
-    <div class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6" id="kt_app_sidebar_footer">
-        <a href="#" onclick="return alert('masih dalam tahap pengembangan')"
-            class="btn btn-danger btn-sm w-100">
-            <span class="btn-label">Logout</span>
-        </a>
-    </div>
-    <!--end::Footer-->
-</div>
+    <!-- /.sidebar -->
+</aside>

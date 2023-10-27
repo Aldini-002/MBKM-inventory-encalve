@@ -1,351 +1,289 @@
-@extends('layouts.main')
+@extends('layouts.form')
 @section('content')
-    <div class="col-lg-12 mb-3">
-        @if (session()->has('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        @if (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        @if (session()->has('warning'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{ session('warning') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
-
-    <div class="card mb-5 mb-xl-10">
-        <div class="card-body pt-9 pb-0">
-            <div class="text-center mb-10">
-                <img src="{{ $furniture->furniture_images[0]->url }}" alt="image"
-                    class="rounded w-lg-300px h-lg-300px w-100" />
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Furniture</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Simple Tables</li>
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
+        <!-- /.container-fluid -->
+    </section>
 
-
-    <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
-        <!--begin::Card header-->
-        <div class="card-header cursor-pointer">
-            <!--begin::Card title-->
-            <div class="card-title m-0">
-                <h3 class="fw-bold m-0">Furniture Details</h3>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Horizontal Form -->
+            <div class="form-horizontal">
+                <div class="card card-dark card-outline">
+                    <div class="row justify-content-center pt-3 carousel-container">
+                        @foreach ($furniture->furniture_images as $data)
+                            <img src="{{ $data->url }}" alt="..."
+                                class="carousel-image rounded shadow-sm m-1 border border-danger" style="height:200px">
+                        @endforeach
+                    </div>
+                    <div class="row justify-content-center pb-3">
+                        <div id="prevButton" class="btn btn-sm   btn-dark m-1">prev</div>
+                        <div id="nextButton" class="btn btn-sm   btn-dark m-1">next</div>
+                    </div>
+                </div>
             </div>
-            <!--end::Card title-->
-            <div class="text-end d-flex align-items-center gap-1">
-                <a href="/furnitures" class="btn btn-sm btn-dark">Back</a>
-                <a href="/furnitures/edit/{{ $furniture->id }}" class="btn btn-sm btn-warning text-dark">Edit details</a>
-                <form action="/furnitures/{{ $furniture->id }}" method="POST">
-                    @csrf
-                    @method('delete')
-                    <button onclick="return confirm('Delete {{ $furniture->name }} ({{ $furniture->code }})')"
-                        type="submit" class="btn btn-danger fw-bold btn-sm">Delete</button>
-                </form>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Form Edit Furniture</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">SKU</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->code }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Nama</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray text-capitalize">{{ $furniture->name }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Sertifikat</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->certification }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Qty/Month</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->qty_per_month }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">MOQ</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->moq }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Kategori</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="btn btn-xs btn-outline-dark  mr-1">{{ $furniture->category->name }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Material</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            @foreach ($furniture->materials as $data)
+                                <div class="btn btn-xs btn-outline-dark  mr-1">{{ $data->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Finishing</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            @foreach ($furniture->finishings as $data)
+                                <div class="btn btn-xs btn-outline-dark  mr-1">{{ $data->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Application</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            @foreach ($furniture->applications as $data)
+                                <div class="btn btn-xs btn-outline-dark  mr-1">{{ $data->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Keyword</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->keyword }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Ukuran</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->size }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Fitur</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="btn btn-xs btn-outline-dark mr-1 {{ $furniture->convertible ? '' : 'd-none' }}">
+                                Convertible</div>
+                            <div class="btn btn-xs btn-outline-dark mr-1 {{ $furniture->adjustable ? '' : 'd-none' }}">
+                                Adjustable</div>
+                            <div class="btn btn-xs btn-outline-dark mr-1 {{ $furniture->extendable ? '' : 'd-none' }}">
+                                Extendable</div>
+                            <div class="btn btn-xs btn-outline-dark mr-1 {{ $furniture->folded ? '' : 'd-none' }}">
+                                Folded</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <!-- form start -->
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">${{ number_format($furniture->price, 2) }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Opsi pembayaran</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray text-uppercase">{{ $furniture->payment_options }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Aturan Pembayaran</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->payment_terms }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Opsi Pengiriman</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray text-uppercase">{{ $furniture->delivery_terms }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Waktu Pengiriman</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->delivery_time }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Waktu Pengerjaan</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->lead_time }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Packing</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray text-capitalize">{{ $furniture->packing }}</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Pelabuhan</label>
+                        <div class="col-sm-10 d-flex align-items-center">
+                            <div class="text-gray">{{ $furniture->port }}</div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            <a href="/furnitures{{ str_replace('/furnitures/' . $furniture->id, '', request()->getRequestUri()) }}"
+                                class="btn btn-dark mr-1">Kemabli</a>
+                            <a href="/furnitures/{{ $furniture->id }}/edit{{ str_replace('/furnitures/' . $furniture->id, '', request()->getRequestUri()) }}"
+                                class="btn btn-primary mr-1">Ubah Detail</a>
+                            <form
+                                action="/furnitures/{{ $furniture->id . str_replace('/furnitures/' . $furniture->id, '', request()->getRequestUri()) }}"
+                                method="post">
+                                @csrf
+                                @method('delete')
+                                <button
+                                    onclick="return confirm('PERHATIAN!!!\nFurniture {{ $furniture->name }}({{ $furniture->code }}) akan dihapus secara permanen!')"
+                                    type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
             </div>
         </div>
-        <!--begin::Card header-->
-        <!--begin::Card body-->
-        <div class="card-body p-9">
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Code</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->code }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Name furniture</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->name }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Description</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{!! $furniture->description !!}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Certification</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->certification }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Stock</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->stock }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Qty/month</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->qty_per_month }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">MOQ</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->moq }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Category</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="badge badge-light-dark fw-bold fs-6 mb-lg-0 mb-1">{{ $furniture->category->name }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Materials</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    @foreach ($furniture->materials as $data)
-                        <span class="badge badge-light-dark me-2 fw-bold fs-6 mb-lg-0 mb-1">{{ $data->name }}</span>
-                    @endforeach
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Finishing</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    @foreach ($furniture->finishings as $data)
-                        <span class="badge badge-light-dark me-2 fw-bold fs-6 mb-lg-0 mb-1">{{ $data->name }}</span>
-                    @endforeach
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Application</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    @foreach ($furniture->applications as $data)
-                        <span class="badge badge-light-dark me-2 fw-bold fs-6 mb-lg-0 mb-1">{{ $data->name }}</span>
-                    @endforeach
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Keywords</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->keyword }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Featured</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span
-                        class="fw-bold fs-6 text-gray-800 {{ !$furniture->convertible && !$furniture->adjustable && !$furniture->extendable && !$furniture->folded
-                            ? ''
-                            : 'd-none' }}">-</span>
-                    <span
-                        class="badge badge-light-success me-2 fw-bold fs-6 mb-lg-0 mb-1 {{ !$furniture->convertible ? 'd-none' : '' }}">Convertible</span>
-                    <span
-                        class="badge badge-light-success me-2 fw-bold fs-6 mb-lg-0 mb-1 {{ !$furniture->adjustable ? 'd-none' : '' }}">Adjustable</span>
-                    <span
-                        class="badge badge-light-success me-2 fw-bold fs-6 mb-lg-0 mb-1 {{ !$furniture->extendable ? 'd-none' : '' }}">Extendable</span>
-                    <span
-                        class="badge badge-light-success me-2 fw-bold fs-6 mb-lg-0 mb-1 {{ !$furniture->folded ? 'd-none' : '' }}">Folded</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Size</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->size }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Price <span
-                        class="badge badge-light-success">$</span></label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800"><span
-                            class="text-success">$</span>{{ number_format($furniture->price, 2) }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Payment options</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800 text-uppercase">{{ $furniture->payment_options }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Payment terms</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->payment_terms }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Devivery terms</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800 text-uppercase">{{ $furniture->delivery_terms }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Delivery time</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->delivery_time }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Lead time</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->lead_time }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Packing</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800 text-capitalize">{{ $furniture->packing }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-            <!--begin::Row-->
-            <div class="row mb-7">
-                <!--begin::Label-->
-                <label class="col-lg-2 fw-semibold text-muted">Port</label>
-                <!--end::Label-->
-                <!--begin::Col-->
-                <div class="col-lg-10">
-                    <span class="fw-bold fs-6 text-gray-800">{{ $furniture->port }}</span>
-                </div>
-                <!--end::Col-->
-            </div>
-            <!--end::Row-->
-        </div>
-        <!--end::Card body-->
-    </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <script>
+        const imageInput = document.getElementById('image');
+        const imagePreviews = document.getElementById('imagePreviews');
+
+        imageInput.addEventListener('change', function() {
+            imagePreviews.innerHTML = '';
+
+            for (const file of this.files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.height = '150px';
+                    img.classList.add('rounded', 'shadow-sm', 'border', 'm-1')
+                    imagePreviews.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script>
+        const carousel = document.querySelector('.carousel-container');
+        const images = document.querySelectorAll('.carousel-image');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+
+        let currentImage = 0;
+
+        function showImage(imageIndex) {
+            images.forEach((image, index) => {
+                if (index === imageIndex) {
+                    image.style.display = 'block';
+                } else {
+                    image.style.display = 'none';
+                }
+            });
+        }
+
+        function nextImage() {
+            currentImage = (currentImage + 1) % images.length;
+            showImage(currentImage);
+        }
+
+        function prevImage() {
+            currentImage = (currentImage - 1 + images.length) % images.length;
+            showImage(currentImage);
+        }
+
+        nextButton.addEventListener('click', nextImage);
+        prevButton.addEventListener('click', prevImage);
+
+        showImage(currentImage);
+    </script>
 @endsection

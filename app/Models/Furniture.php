@@ -42,16 +42,36 @@ class Furniture extends Model
 
     public function scopeFilter($query, array $filters)
     {
+        // $query->when($filters['category'] ?? false, function ($query, $category) {
+        //     $query->where('tag', 'like', '%' . $category . '%');
+        // });
+
         $query->when($filters['category'] ?? false, function ($query, $category) {
-            $query->where('tag', 'like', '%' . $category . '%');
+            return $query->whereHas('category', function ($query) use ($category) {
+                $query->where('name', $category);
+            });
         });
 
-        $query->when($filters['name'] ?? false, function ($query, $name) {
-            return $query->where('name', 'like', '%' . $name . '%');
+        $query->when($filters['material'] ?? false, function ($query, $material) {
+            return $query->whereHas('materials', function ($query) use ($material) {
+                $query->where('name', $material);
+            });
         });
 
-        $query->when($filters['code'] ?? false, function ($query, $code) {
-            return $query->where('code', 'like', '%' . $code . '%');
+        $query->when($filters['finishing'] ?? false, function ($query, $finishing) {
+            return $query->whereHas('finishings', function ($query) use ($finishing) {
+                $query->where('name', $finishing);
+            });
+        });
+
+        $query->when($filters['application'] ?? false, function ($query, $application) {
+            return $query->whereHas('applications', function ($query) use ($application) {
+                $query->where('name', $application);
+            });
+        });
+
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%')->orWhere('code', 'like', '%' . $search . '%');
         });
     }
 
@@ -80,23 +100,13 @@ class Furniture extends Model
         return $this->hasMany(FurnitureImage::class);
     }
 
-    public function stock_ins()
+    public function stock_in_select()
     {
-        return $this->hasMany(StockIn::class);
+        return $this->hasOne(StockInSelect::class);
     }
 
-    public function stock_in_selected()
+    public function stock_out_select()
     {
-        return $this->hasOne(FurnitureStockInSelected::class);
-    }
-
-    public function stock_outs()
-    {
-        return $this->hasMany(StockOut::class);
-    }
-
-    public function stock_out_selected()
-    {
-        return $this->hasOne(FurnitureStockOutSelected::class);
+        return $this->hasOne(StockOutSelect::class);
     }
 }

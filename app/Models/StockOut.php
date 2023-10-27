@@ -12,19 +12,30 @@ class StockOut extends Model
     protected $table = 'stock_out';
 
     protected $fillable = [
-        'furniture_id',
         'buyer_id',
+        'furniture_id',
         'code',
-        'name',
-        'price',
+        'furniture_code',
+        'furniture_name',
+        'furniture_price',
         'amount',
         'initial_stock',
-        'final_stock'
+        'final_stock',
+        'total',
     ];
 
-    public function furniture()
+    public function scopeFilter($query, array $filters)
     {
-        return $this->belongsTo(Furniture::class);
+
+        $query->when($filters['buyer'] ?? false, function ($query, $buyer) {
+            return $query->whereHas('buyer', function ($query) use ($buyer) {
+                $query->where('name', $buyer);
+            });
+        });
+
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('furniture_name', 'like', '%' . $search . '%')->orWhere('furniture_code', 'like', '%' . $search . '%');
+        });
     }
 
     public function buyer()

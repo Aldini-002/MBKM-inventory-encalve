@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Buyer;
+use App\Models\Suplier;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,11 +22,16 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        Suplier::factory(10)->create();
+        Buyer::factory(10)->create();
+
         $this->call([
             ApplicationSeeder::class,
             CategorySeeder::class,
             MaterialSeeder::class,
             FinishingSeeder::class,
+            FurnitureSeeder::class,
+            FurnitureImageSeeder::class,
         ]);
     }
 }

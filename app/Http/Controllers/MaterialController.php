@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Furniture;
 use App\Models\FurnitureMaterial;
 use App\Models\Material;
 use Illuminate\Http\Request;
@@ -10,12 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class MaterialController extends Controller
 {
-    /**
-     * get data
-     */
     public function index()
     {
-        $materials = Material::latest()->get();
+        $orderBy = request('orderBy') ?? 'name';
+        $order = request('order') ?? 'asc';
+        $materials = Material::filter(request(['search']))->orderBy($orderBy, $order)->paginate(10)->withQueryString();
         $furniture_materials = FurnitureMaterial::latest()->get();
 
         return view('materials.index', [
@@ -24,29 +22,11 @@ class MaterialController extends Controller
         ]);
     }
 
-    /**
-     * get data by id
-     */
-    public function show($id)
+    public function create()
     {
-        $material = Material::find($id);
-
-        if (!$material) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'success',
-            'data' => $material
-        ], 200);
+        return view('materials.create');
     }
 
-    /**
-     * create data
-     */
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
@@ -54,34 +34,35 @@ class MaterialController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         Material::create([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 201);
+        return redirect('/materials?orderBy=created_at&order=desc')->with('success', 'Material berhasil ditambahkan');
     }
 
-    /**
-     * update data
-     */
+    public function edit($id)
+    {
+        $material = Material::find($id);
+
+        if (!$material) {
+            return back()->with('warning', 'Material tidak ditemukan');
+        }
+
+        return view('materials.edit', [
+            'material' => $material,
+        ]);
+    }
+
     public function update(Request $req, $id)
     {
         $material = Material::find($id);
 
         if (!$material) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Material tidak ditemukan');
         }
 
         $validatorRules = [
@@ -97,41 +78,26 @@ class MaterialController extends Controller
         $validator = Validator::make($req->all(), $validatorRules);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         $material->update([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 200);
+        return redirect('/materials')->with('success', 'Material berhasil diubah');
     }
 
-    /**
-     * delete data
-     */
     public function destroy($id)
     {
         $material = Material::find($id);
 
         if (!$material) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Material tidak ditemukan');
         }
 
         $material->delete();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => null,
-        ], 200);
+        return redirect('/materials?orderBy=created_at&order=desc')->with('success', 'Material berhasil dihapus');
     }
 }

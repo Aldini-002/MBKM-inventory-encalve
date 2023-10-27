@@ -11,9 +11,21 @@ class Buyer extends Model
 
     protected $table = 'buyer';
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'address',
+    ];
 
     protected $with = ['stock_outs'];
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%')->orWhere('email', 'like', '%' . $search . '%')->orWhere('phone', 'like', '%' . $search . '%');
+        });
+    }
 
     public function stock_outs()
     {

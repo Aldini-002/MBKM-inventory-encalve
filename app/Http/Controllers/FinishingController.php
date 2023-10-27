@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class FinishingController extends Controller
 {
-
-    /**
-     * get data
-     */
     public function index()
     {
-        $finishings = Finishing::latest()->get();
+        $orderBy = request('orderBy') ?? 'name';
+        $order = request('order') ?? 'asc';
+        $finishings = Finishing::filter(request(['search']))->orderBy($orderBy, $order)->paginate(10)->withQueryString();
         $furniture_finishings = FurnitureFinishing::latest()->get();
 
         return view('finishings.index', [
@@ -24,29 +22,11 @@ class FinishingController extends Controller
         ]);
     }
 
-    /**
-     * get data by id
-     */
-    public function show($id)
+    public function create()
     {
-        $finishing = Finishing::find($id);
-
-        if (!$finishing) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'success',
-            'data' => $finishing
-        ], 200);
+        return view('finishings.create');
     }
 
-    /**
-     * create data
-     */
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
@@ -54,34 +34,35 @@ class FinishingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         Finishing::create([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 201);
+        return redirect('/finishings?orderBy=created_at&order=desc')->with('success', 'Finishing berhasil ditambahkan');
     }
 
-    /**
-     * update data
-     */
+    public function edit($id)
+    {
+        $finishing = Finishing::find($id);
+
+        if (!$finishing) {
+            return back()->with('warning', 'Finishing tidak ditemukan');
+        }
+
+        return view('finishings.edit', [
+            'finishing' => $finishing,
+        ]);
+    }
+
     public function update(Request $req, $id)
     {
         $finishing = Finishing::find($id);
 
         if (!$finishing) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Finishing tidak ditemukan');
         }
 
         $validatorRules = [
@@ -97,41 +78,26 @@ class FinishingController extends Controller
         $validator = Validator::make($req->all(), $validatorRules);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         $finishing->update([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 200);
+        return redirect('/finishings')->with('success', 'Finishing berhasil diubah');
     }
 
-    /**
-     * delete data
-     */
     public function destroy($id)
     {
         $finishing = Finishing::find($id);
 
         if (!$finishing) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Finishing tidak ditemukan');
         }
 
         $finishing->delete();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => null,
-        ], 200);
+        return redirect('/finishings?orderBy=created_at&order=desc')->with('success', 'Finishing berhasil dihapus');
     }
 }

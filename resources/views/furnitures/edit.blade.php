@@ -1,405 +1,381 @@
-@extends('layouts.main')
+@extends('layouts.form')
 @section('content')
-    <div class="col-lg-12 mb-3">
-        @if (session()->has('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Edit Furniture</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Simple Tables</li>
+                    </ol>
+                </div>
             </div>
-        @endif
-        @if (session()->has('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        @if (session()->has('warning'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{ session('warning') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
-
-    <!--begin::Toolbar-->
-    <div id="kt_app_toolbar" class="app-toolbar pb-3 pb-lg-6">
-        <!--begin::Toolbar container-->
-        <div id="kt_app_toolbar_container" class="container-xxl d-flex flex-stack">
-            <!--begin::Page title-->
-            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Edit
-                    furniture
-                </h1>
-                <!--end::Title-->
-            </div>
-            <!--end::Page title-->
         </div>
-        <!--end::Toolbar container-->
-    </div>
-    <!--end::Toolbar-->
+        <!-- /.container-fluid -->
+    </section>
 
-    <form class="form" action="/furnitures/{{ $furniture->id }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('put')
-        <div class="card mb-5 mb-xl-10">
-            <!--begin::Content-->
-            <div id="kt_account_settings_profile_details" class="collapse show">
-                <!--begin::Card body-->
-                <div class="card-body border-top p-9">
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Image</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8">
-                            <!--begin::Image input-->
-                            <div class="image-input image-input-outline" data-kt-image-input="true"
-                                style="background-image: url({{ $furniture->furniture_images[0]->url }})">
-                                <!--begin::Preview existing avatar-->
-                                <div class="image-input-wrapper w-125px h-125px"
-                                    style="background-image: url({{ $furniture->furniture_images[0]->url }})"></div>
-                                <!--end::Preview existing avatar-->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Horizontal Form -->
+            <form
+                action="/furnitures/{{ $furniture->id }}{{ str_replace('/furnitures/' . $furniture->id . '/edit', '', request()->getRequestUri()) }}"
+                method="post" class="form-horizontal">
+                @csrf
+                @method('put')
+                <div class="card card-dark card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Form Edit Furniture</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Nama furniture<span
+                                    class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" name="name"
+                                    class="form-control @error('name') is-invalid @enderror" id="name"
+                                    placeholder="nama" value="{{ $furniture->name }}" autofocus autocomplete="off" required>
+                                @error('name')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
                             </div>
-                            <!--end::Image input-->
                         </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm required fw-semibold fs-6">Name</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid" name="name"
-                                placeholder="name furnitures" autocomplete="off" value="{{ $furniture->name }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Description</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row ">
-                            <textarea class="form-control form-control-sm form-control-solid" name="description" id="description" rows="3"
-                                placeholder="description">{{ $furniture->description }}</textarea>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Certification</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid"
-                                name="certification" placeholder="certification" autocomplete="off"
-                                value="{{ $furniture->certification ?? 'V-Legal Wood' }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Qty/month</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row ">
-                            <input type="number" class="form-control form-control-sm form-control-solid"
-                                name="qty_per_month" placeholder="qty/month" autocomplete="off"
-                                value="{{ $furniture->qty_per_month }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">MOQ</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="number" class="form-control form-control-sm form-control-solid" name="moq"
-                                placeholder="moq" autocomplete="off" value="{{ $furniture->moq }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                </div>
-                <!--end::Card body-->
-            </div>
-            <!--end::Content-->
-        </div>
 
-        <div class="card mb-5 mb-xl-10">
-            <!--begin::Content-->
-            <div id="kt_account_settings_profile_details" class="collapse show">
-                <!--begin::Card body-->
-                <div class="card-body border-top p-9">
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Keyword</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid" name="keyword"
-                                placeholder="keyword" autocomplete="off" value="{{ $furniture->keyword }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Size</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row">
-                            <!--begin::Options-->
-                            <div class="d-flex align-items-center gap-3">
-                                <!--begin::Option-->
-                                <input type="number" class="form-control form-control-sm form-control-solid"
-                                    name="length" placeholder="length" autocomplete="off"
-                                    value="{{ $furniture->length }}">
-                                <!--end::Option-->
-                                <!--begin::Option-->
-                                <input type="number" class="form-control form-control-sm form-control-solid"
-                                    name="width" placeholder="width" autocomplete="off"
-                                    value="{{ $furniture->width }}">
-                                <!--end::Option-->
-                                <!--begin::Option-->
-                                <input type="number" class="form-control form-control-sm form-control-solid"
-                                    name="height" placeholder="height" autocomplete="off"
-                                    value="{{ $furniture->height }}">
-                                <!--end::Option-->
+                        <div class="form-group row">
+                            <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control @error('description') is-invalid @enderror" rows="3" name="description"
+                                    id="description" placeholder="deskripsi...">{{ $furniture->description }}</textarea>
+                                @error('description')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
                             </div>
-                            <!--end::Options-->
                         </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Featured</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row">
-                            <!--begin::Options-->
-                            <div class="d-flex align-items-center">
-                                <!--begin::Option-->
-                                <label class="form-check form-check-custom form-check-inline form-check-solid me-10">
-                                    <input class="form-check-input" name="convertible" type="checkbox" value="1"
-                                        {{ $furniture->convertible ? 'checked' : '' }} />
-                                    <span class="fw-semibold ps-2 fs-6">Convertible</span>
-                                </label>
-                                <!--end::Option-->
-                                <!--begin::Option-->
-                                <label class="form-check form-check-custom form-check-inline form-check-solid me-10">
-                                    <input class="form-check-input" name="adjustable" type="checkbox" value="1"
-                                        {{ $furniture->adjustable ? 'checked' : '' }} />
-                                    <span class="fw-semibold ps-2 fs-6">Adjustable</span>
-                                </label>
-                                <!--end::Option-->
-                                <!--begin::Option-->
-                                <label class="form-check form-check-custom form-check-inline form-check-solid me-10">
-                                    <input class="form-check-input" name="folded" type="checkbox" value="1"
-                                        {{ $furniture->folded ? 'checked' : '' }} />
-                                    <span class="fw-semibold ps-2 fs-6">Folded</span>
-                                </label>
-                                <!--end::Option-->
-                                <!--begin::Option-->
-                                <label class="form-check form-check-custom form-check-inline form-check-solid">
-                                    <input class="form-check-input" name="extendable" type="checkbox" value="1"
-                                        {{ $furniture->extendable ? 'checked' : '' }} />
-                                    <span class="fw-semibold ps-2 fs-6">Extendable</span>
-                                </label>
-                                <!--end::Option-->
+
+                        <div class="form-group row">
+                            <label for="certification" class="col-sm-2 col-form-label">Sertifikat</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="certification"
+                                    class="form-control @error('certification') is-invalid @enderror" id="certification"
+                                    placeholder="sertifikat"
+                                    value="{{ $furniture->certification ?? 'V-Legal' }}"autocomplete="off">
+                                @error('certification')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
                             </div>
-                            <!--end::Options-->
                         </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                </div>
-                <!--end::Card body-->
-            </div>
-            <!--end::Content-->
-        </div>
 
-        <div class="card mb-5 mb-xl-10">
-            <!--begin::Content-->
-            <div id="kt_account_settings_profile_details" class="collapse show">
-                <!--begin::Card body-->
-                <div class="card-body border-top p-9">
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Price</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="number" class="form-control form-control-sm form-control-solid" name="price"
-                                placeholder="price" autocomplete="off" value="{{ $furniture->price }}">
+                        <div class="form-group row">
+                            <label for="qty_per_month" class="col-sm-2 col-form-label">Qty/Month</label>
+                            <div class="col-sm-10">
+                                <input type="number" name="qty_per_month"
+                                    class="form-control @error('qty_per_month') is-invalid @enderror" id="qty_per_month"
+                                    placeholder="qty/month" value="{{ $furniture->qty_per_month }}"autocomplete="off"
+                                    min="0">
+                                @error('qty_per_month')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Payment
-                            options</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row">
-                            <select class="form-select form-select-sm form-select-solid mb-2" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select an option" id="payment_options_id"
-                                name="payment_options">
-                                <option></option>
-                                <option value="dp"
-                                    {{ $furniture->payment_options == 'dp' || !$furniture->payment_options ? 'selected' : '' }}>
-                                    DP
-                                </option>
-                                <option value="full" {{ $furniture->payment_options == 'full' ? 'selected' : '' }}>
-                                    Full payment</option>
-                            </select>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Payment terms</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid"
-                                name="payment_terms" placeholder="payment_terms" autocomplete="off"
-                                value="{{ $furniture->payment_terms ?? 'DP 50%' }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Delivery
-                            options</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row">
-                            <select class="form-select form-select-sm form-select-solid mb-2" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select an option" id="delivery_terms_id"
-                                name="delivery_terms">
-                                <option></option>
-                                <option value="fob"
-                                    {{ $furniture->delivery_terms == 'fob' || !$furniture->delivery_terms ? 'selected' : '' }}>
-                                    FOB
-                                </option>
-                                <option value="exw" {{ $furniture->delivery_terms == 'exw' ? 'selected' : '' }}>
-                                    EXW</option>
-                            </select>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Delivery time</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid"
-                                name="delivery_time" placeholder="delivery time" autocomplete="off"
-                                value="{{ $furniture->delivery_time }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Lead time</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid"
-                                name="lead_time" placeholder="lead time" autocomplete="off"
-                                value="{{ $furniture->lead_time }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Packages</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg-8 fv-row">
-                            <select class="form-select form-select-sm form-select-solid mb-2" data-control="select2"
-                                data-hide-search="true" data-placeholder="Select an option" id="packing_id"
-                                name="packing">
-                                <option></option>
-                                <option value="corrugated paper"
-                                    {{ $furniture->packing == 'corrugated paper' || !$furniture->packing ? 'selected' : '' }}>
-                                    Corrugated paper
-                                </option>
-                                <option value="box" {{ $furniture->packing == 'box' ? 'selected' : '' }}>
-                                    BOX</option>
-                            </select>
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row mb-6">
-                        <!--begin::Label-->
-                        <label class="col-lg-4 col-form-label col-form-label-sm fw-semibold fs-6">Port</label>
-                        <!--end::Label-->
-                        <!--begin::Col-->
-                        <div class="col-lg fv-row ">
-                            <input type="text" class="form-control form-control-sm form-control-solid" name="port"
-                                placeholder="port" autocomplete="off" value="{{ $furniture->port }}">
-                        </div>
-                        <!--end::Col-->
-                    </div>
-                    <!--end::Input group-->
-                </div>
-                <!--end::Card body-->
-                <!--begin::Actions-->
-                <div class="card-footer d-flex justify-content-end py-6 px-9">
-                    <a href="{{ request('index') ? '/furnitures' : '/furnitures/' . $furniture->id }}"
-                        class="btn btn-dark btn-sm me-2">Cancel</a>
-                    <button type="reset" class="btn btn-warning btn-sm me-2">Reset</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Save change</button>
-                </div>
-                <!--end::Actions-->
-            </div>
-            <!--end::Content-->
-        </div>
 
-    </form>
+                        <div class="form-group row">
+                            <label for="moq" class="col-sm-2 col-form-label">MOQ</label>
+                            <div class="col-sm-10">
+                                <input type="number" name="moq" class="form-control @error('moq') is-invalid @enderror"
+                                    id="moq" placeholder="moq" value="{{ $furniture->moq }}"autocomplete="off"
+                                    min="0">
+                                @error('moq')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="keyword" class="col-sm-2 col-form-label">Kata kunci</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="keyword"
+                                    class="form-control @error('keyword') is-invalid @enderror" id="keyword"
+                                    placeholder="kata kunci" value="{{ $furniture->keyword }}"autocomplete="off">
+                                @error('keyword')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Ukuran<span class="text-danger">*</span></label>
+                            <div class="col-sm pb-2">
+                                <input type="number" name="length"
+                                    class="form-control @error('length') is-invalid @enderror" id="length"
+                                    placeholder="panjang" value="{{ $furniture->length }}"autocomplete="off" required
+                                    min="0">
+                                @error('length')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-sm pb-2">
+                                <input type="number" name="width"
+                                    class="form-control @error('width') is-invalid @enderror" id="width"
+                                    placeholder="lebar" value="{{ $furniture->width }}"autocomplete="off" required
+                                    min="0">
+                                @error('width')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-sm">
+                                <input type="number" name="height"
+                                    class="form-control @error('height') is-invalid @enderror" id="height"
+                                    placeholder="tinggi" value="{{ $furniture->height }}"autocomplete="off" required
+                                    min="0">
+                                @error('height')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Fitur</label>
+                            <div class="col-sm pb-2 d-flex align-items-center flex-wrap">
+                                <div class="icheck-primary mr-5">
+                                    <input type="checkbox" name="convertible" id="convertible" value="1"
+                                        {{ $furniture->convertible ? 'checked' : '' }}>
+                                    <label for="convertible">Convertible</label>
+                                </div>
+                                <div class="icheck-primary mr-5">
+                                    <input type="checkbox" name="adjustable" id="adjustable" value="1"
+                                        {{ $furniture->adjustable ? 'checked' : '' }}>
+                                    <label for="adjustable">Adjustable</label>
+                                </div>
+                                <div class="icheck-primary mr-5">
+                                    <input type="checkbox" name="extendable" id="extendable" value="1"
+                                        {{ $furniture->extendable ? 'checked' : '' }}>
+                                    <label for="extendable">Extendable</label>
+                                </div>
+                                <div class="icheck-primary mr-5">
+                                    <input type="checkbox" name="Folded" id="Folded" value="1"
+                                        {{ $furniture->Folded ? 'checked' : '' }}>
+                                    <label for="Folded">Folded</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <!-- form start -->
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-2 col-form-label">Harga satuan</label>
+                            <div class="col-sm-10">
+                                <input type="number" name="price"
+                                    class="form-control @error('price') is-invalid @enderror" id="price"
+                                    placeholder="harga satuan" value="{{ $furniture->price }}" step="0.01"
+                                    min="0" max="999999" autocomplete="off">
+                                @error('price')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="payment_options" class="col-sm-2 col-form-label">Opsi pembayaran</label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" name="payment_options" id="payment_options"
+                                    style="width: 100%;">
+                                    <option value="dp" {{ $furniture->payment_options == 'dp' ? 'selected' : '' }}>DP
+                                    </option>
+                                    <option value="full" {{ $furniture->payment_options == 'full' ? 'selected' : '' }}>
+                                        Full
+                                        Payment
+                                    </option>
+                                </select>
+                                @error('payment_options')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="payment_terms" class="col-sm-2 col-form-label">Aturan pembayaran</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="payment_terms"
+                                    class="form-control @error('payment_terms') is-invalid @enderror" id="payment_terms"
+                                    placeholder="aturan pembayaran"
+                                    value="{{ $furniture->payment_terms ?? 'DP 50%' }}"autocomplete="off">
+                                @error('payment_terms')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="delivery_options" class="col-sm-2 col-form-label">Opsi pengiriman</label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" name="delivery_options" id="delivery_options"
+                                    style="width: 100%;">
+                                    <option value="fob" {{ $furniture->delivery_options == 'fob' ? 'selected' : '' }}>
+                                        FOB
+                                    </option>
+                                    <option value="exw" {{ $furniture->delivery_options == 'exw' ? 'selected' : '' }}>
+                                        EX
+                                        WORK
+                                    </option>
+                                </select>
+                                @error('delivery_options')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="delivery_time" class="col-sm-2 col-form-label">Waktu pengririman</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="delivery_time"
+                                    class="form-control @error('delivery_time') is-invalid @enderror" id="delivery_time"
+                                    placeholder="waktu pengiriman"
+                                    value="{{ $furniture->delivery_time }}"autocomplete="off">
+                                @error('delivery_time')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="lead_time" class="col-sm-2 col-form-label">Waktu pengerjaan</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="lead_time"
+                                    class="form-control @error('lead_time') is-invalid @enderror" id="lead_time"
+                                    placeholder="waktu pengerjaan" value="{{ $furniture->lead_time }}"autocomplete="off">
+                                @error('lead_time')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="package" class="col-sm-2 col-form-label">Packing</label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" name="package" id="package" style="width: 100%;">
+                                    <option value="box" {{ $furniture->package == 'box' ? 'selected' : '' }}>BOX
+                                    </option>
+                                    <option value="corrugated paper"
+                                        {{ $furniture->package == 'corrugated paper' ? 'selected' : '' }}>Corrugated Paper
+                                    </option>
+                                </select>
+                                @error('package')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="port" class="col-sm-2 col-form-label">Port</label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" name="port" id="port" style="width: 100%;">
+                                    <option value=' Tanjung Mas'
+                                        {{ $furniture->port == 'Tanjung Mas' ? 'selected' : '' }}>
+                                        Tanjung Mas</option>
+                                    <option value=' Tanjung Priok'
+                                        {{ $furniture->port == 'Tanjung Priok' ? 'selected' : '' }}>
+                                        Tanjung Priok</option>
+                                    <option value=' Tanjung Perak'
+                                        {{ $furniture->port == 'Tanjung Perak' ? 'selected' : '' }}>
+                                        Tanjung Perak</option>
+                                    <option value=' Belawan' {{ $furniture->port == 'Belawan' ? 'selected' : '' }}>Belawan
+                                    </option>
+                                    <option value=' Merak' {{ $furniture->port == 'Merak' ? 'selected' : '' }}>Merak
+                                    </option>
+                                    <option value=' Benoa' {{ $furniture->port == 'Benoa' ? 'selected' : '' }}>Benoa
+                                    </option>
+                                    <option value=' Makassar' {{ $furniture->port == 'Makassar' ? 'selected' : '' }}>
+                                        Makassar
+                                    </option>
+                                    <option value=' Palembang' {{ $furniture->port == 'Palembang' ? 'selected' : '' }}>
+                                        Palembang
+                                    </option>
+                                    <option value=' Sorong' {{ $furniture->port == 'Sorong' ? 'selected' : '' }}>Sorong
+                                    </option>
+                                    <option value=' Manado' {{ $furniture->port == 'Manado' ? 'selected' : '' }}>Manado
+                                    </option>
+                                    <option value=' Banjarmasin'
+                                        {{ $furniture->port == 'Banjarmasin' ? 'selected' : '' }}>
+                                        Banjarmasin</option>
+                                    <option value=' Balikpapan' {{ $furniture->port == 'Balikpapan' ? 'selected' : '' }}>
+                                        Balikpapan</option>
+                                    <option value=' Jayapura' {{ $furniture->port == 'Jayapura' ? 'selected' : '' }}>
+                                        Jayapura
+                                    </option>
+                                    <option value=' Ambon' {{ $furniture->port == 'Ambon' ? 'selected' : '' }}>Ambon
+                                    </option>
+                                    <option value=' Lampung' {{ $furniture->port == 'Lampung' ? 'selected' : '' }}>Lampung
+                                    </option>
+                                    <option value=' Semarang' {{ $furniture->port == 'Semarang' ? 'selected' : '' }}>
+                                        Semarang
+                                    </option>
+                                    <option value=' Padang' {{ $furniture->port == 'Padang' ? 'selected' : '' }}>Padang
+                                    </option>
+                                    <option value=' Lombok' {{ $furniture->port == 'Lombok' ? 'selected' : '' }}>Lombok
+                                    </option>
+                                    <option value=' Surabaya' {{ $furniture->port == 'Surabaya' ? 'selected' : '' }}>
+                                        Surabaya
+                                    </option>
+                                    <option value=' Bitung' {{ $furniture->port == 'Bitung' ? 'selected' : '' }}>Bitung
+                                    </option>
+                                    <option value=' Ternate' {{ $furniture->port == 'Ternate' ? 'selected' : '' }}>Ternate
+                                    </option>
+                                </select>
+                                @error('port')
+                                    <small class="text-danger font-italic">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            <a href="/furnitures/{{ $furniture->id . str_replace('/furnitures/' . $furniture->id . '/edit', '', request()->getRequestUri()) }}"
+                                class="btn btn-danger mr-1">Batal</a>
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </div>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+            </form>
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <script>
+        const imageInput = document.getElementById('image');
+        const imagePreviews = document.getElementById('imagePreviews');
+
+        imageInput.addEventListener('change', function() {
+            imagePreviews.innerHTML = '';
+
+            for (const file of this.files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.height = '150px';
+                    img.classList.add('rounded', 'shadow-sm', 'border', 'm-1')
+                    imagePreviews.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection

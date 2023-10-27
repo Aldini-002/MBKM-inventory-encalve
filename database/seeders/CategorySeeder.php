@@ -13,6 +13,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+
         Category::factory()->create([
             'name' => 'Chair',
         ]);
@@ -23,7 +24,7 @@ class CategorySeeder extends Seeder
             'name' => 'Decoration',
         ]);
         Category::factory()->create([
-            'name' => 'Hanger',
+            'name' => 'Stand',
         ]);
         Category::factory()->create([
             'name' => 'Shelf',

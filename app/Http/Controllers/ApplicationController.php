@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ApplicationController extends Controller
 {
-    /**
-     * get data
-     */
     public function index()
     {
-        $applications = Application::latest()->get();
+        $orderBy = request('orderBy') ?? 'name';
+        $order = request('order') ?? 'asc';
+        $applications = Application::filter(request(['search']))->orderBy($orderBy, $order)->paginate(10)->withQueryString();
         $furniture_applications = FurnitureApplication::latest()->get();
 
         return view('applications.index', [
@@ -23,29 +22,11 @@ class ApplicationController extends Controller
         ]);
     }
 
-    /**
-     * get data by id
-     */
-    public function show($id)
+    public function create()
     {
-        $application = Application::find($id);
-
-        if (!$application) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'success',
-            'data' => $application
-        ], 200);
+        return view('applications.create');
     }
 
-    /**
-     * create data
-     */
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
@@ -53,34 +34,35 @@ class ApplicationController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         Application::create([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 201);
+        return redirect('/applications?orderBy=created_at&order=desc')->with('success', 'Application berhasil ditambahkan');
     }
 
-    /**
-     * update data
-     */
+    public function edit($id)
+    {
+        $application = Application::find($id);
+
+        if (!$application) {
+            return back()->with('warning', 'Application tidak ditemukan');
+        }
+
+        return view('applications.edit', [
+            'application' => $application,
+        ]);
+    }
+
     public function update(Request $req, $id)
     {
         $application = Application::find($id);
 
         if (!$application) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Application tidak ditemukan');
         }
 
         $validatorRules = [
@@ -96,41 +78,26 @@ class ApplicationController extends Controller
         $validator = Validator::make($req->all(), $validatorRules);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         $application->update([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 200);
+        return redirect('/applications')->with('success', 'Application berhasil diubah');
     }
 
-    /**
-     * delete data
-     */
     public function destroy($id)
     {
         $application = Application::find($id);
 
         if (!$application) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Application tidak ditemukan');
         }
 
         $application->delete();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => null,
-        ], 200);
+        return redirect('/applications?orderBy=created_at&order=desc')->with('success', 'Application berhasil dihapus');
     }
 }

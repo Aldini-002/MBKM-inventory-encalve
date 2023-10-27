@@ -11,25 +11,23 @@ use App\Models\FurnitureFinishing;
 use App\Models\FurnitureImage;
 use App\Models\FurnitureMaterial;
 use App\Models\Material;
-use App\Models\Suplier;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Validator;
 
 class FurnitureController extends Controller
 {
-    /**
-     * get data
-     */
     public function index()
     {
+        $orderBy = request('orderBy') ?? 'name';
+        $order = request('order') ?? 'asc';
+        $show = request('show') ?? '5';
         $with = ['applications', 'category', 'materials', 'finishings', 'furniture_images'];
-        $furnitures = Furniture::filter(request(['category', 'name', 'code']))->with($with)->latest()->get();
+        $furnitures = Furniture::filter(request(['category', 'material', 'finishing', 'application', 'search']))->with($with)->orderBy($orderBy, $order)->paginate($show)->withQueryString();
 
         return view('furnitures.index', [
             'furnitures' => $furnitures,
+            'allFurnitures' => Furniture::all(),
             'finishings' => Finishing::all(),
             'categories' => Category::all(),
             'applications' => Application::all(),
@@ -37,60 +35,23 @@ class FurnitureController extends Controller
         ]);
     }
 
-    /**
-     * get data by id
-     */
     public function show($id)
     {
         $with = ['applications', 'category', 'materials', 'finishings', 'furniture_images'];
         $furniture = Furniture::with($with)->find($id);
-
-        /**
-         * get relation
-         */
-        $furniture_application = FurnitureApplication::where('furniture_id', $id)->get();
-        $furniture_material = FurnitureMaterial::where('furniture_id', $id)->get();
-        $furniture_finishing = FurnitureFinishing::where('furniture_id', $id)->get();
-
-        $application_id = [];
-        $material_id = [];
-        $finishing_id = [];
-
-        foreach ($furniture_application as $data) {
-            $application_id[] = $data->application_id;
-        }
-        foreach ($furniture_material as $data) {
-            $material_id[] = $data->material_id;
-        }
-        foreach ($furniture_finishing as $data) {
-            $finishing_id[] = $data->finishing_id;
-        }
 
         if (!$furniture) {
             return back()->with('warning', 'furniture not found!');
         }
 
         return view('furnitures.show', [
-            'page' => 'furniture detail',
             'furniture' => $furniture,
-            'finishings' => Finishing::all(),
-            'categories' => Category::all(),
-            'applications' => Application::all(),
-            'materials' => Material::all(),
-            'finishing_id' => $finishing_id,
-            'application_id' => $application_id,
-            'material_id' => $material_id,
-
         ]);
     }
 
-    /**
-     * view create data
-     */
     public function create()
     {
         return view('furnitures.create', [
-            'page' => 'create furniture',
             'finishings' => Finishing::all(),
             'categories' => Category::all(),
             'applications' => Application::all(),
@@ -98,9 +59,6 @@ class FurnitureController extends Controller
         ]);
     }
 
-    /**
-     * create data
-     */
     public function store(Request $req)
     {
         /**
@@ -111,7 +69,7 @@ class FurnitureController extends Controller
             'material_id' => $req['material_id'],
             'application_id' => $req['application_id'],
             'finishing_id' => $req['finishing_id'],
-            'code' => $req['code'] ?? 000000,
+            'code' => $req['code'] ?? 000000000,
             'name' => $req['name'],
             'image' => $req['image'],
             'description' => $req['description'] ?? '-',
@@ -184,7 +142,7 @@ class FurnitureController extends Controller
          * run validator
          */
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
         }
 
         /**
@@ -204,7 +162,7 @@ class FurnitureController extends Controller
         /**
          * generate size
          */
-        $fields['size'] = $fields['length'] . 'cm x ' . $fields['width'] . 'cm x ' . $fields['height'] . 'cm';
+        $fields['size'] = $fields['length'] . ' x ' . $fields['width'] . ' x ' . $fields['height'];
 
         /**
          * generate tag
@@ -235,11 +193,12 @@ class FurnitureController extends Controller
         /**
          * generate code
          */
-        $furniture_id = Furniture::latest()->first()->id ?? 0;
+        $furniture_id = Furniture::orderBy('id', 'desc')->first()->id ?? 0;
+
         $code1 = $fields['category_id'];
         $code2 = $fields['material_id'][0];
         $code3 = $fields['material_id'][1] ?? 1;
-        $code4 = str_pad(($furniture_id + 1), 4, '0', STR_PAD_LEFT);
+        $code4 = str_pad(($furniture_id + 1), 6, '0', STR_PAD_LEFT);
         $code = $code1 . $code2 . $code3 . $code4;
         $fields['code'] = $code;
 
@@ -286,18 +245,16 @@ class FurnitureController extends Controller
             ]);
         }
 
-        return redirect('/furnitures')->with('success', 'add success');
+        return redirect('/furnitures?orderBy=created_at&order=desc')->with('success', 'Furniture berhasil ditambahkan');
     }
 
-    /**
-     * view edit data
-     */
     public function edit($id)
     {
         $with = ['applications', 'category', 'materials', 'finishings', 'furniture_images'];
         $furniture = Furniture::with($with)->find($id);
+
         if (!$furniture) {
-            return back()->with('warning', 'Data not found!');
+            return back()->with('warning', 'Furniture tidak ditemukan!');
         }
 
         return view('furnitures.edit', [
@@ -305,15 +262,12 @@ class FurnitureController extends Controller
         ]);
     }
 
-    /**
-     * update data
-     */
     public function update(Request $req, $id)
     {
         $furniture = Furniture::find($id);
 
         if (!$furniture) {
-            return back()->with('warning', 'data not found!');
+            return back()->with('warning', 'Furniture tidak ditemukan!');
         }
 
         /**
@@ -392,7 +346,7 @@ class FurnitureController extends Controller
          * run validator
          */
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator)->withInput();
         }
 
         /**
@@ -402,18 +356,17 @@ class FurnitureController extends Controller
 
         $furniture->update($fields);
 
-        return redirect('/furnitures/' . $id)->with('success', 'update success');
+        $query = str_replace('/furnitures/' . $id, '', request()->getRequestUri());
+
+        return redirect('/furnitures/' . $id . $query)->with('success', 'Furniture berhasil diubah');
     }
 
-    /**
-     * delete data
-     */
     public function destroy($id)
     {
         $furniture = Furniture::find($id);
 
         if (!$furniture) {
-            return back()->with('warning', 'data not found!');
+            return back()->with('warning', 'Furniture tidak ditemukan!');
         }
 
         /**
@@ -428,6 +381,8 @@ class FurnitureController extends Controller
 
         $furniture->delete();
 
-        return redirect('/furnitures')->with('success', 'delete success');
+        $query = str_replace('/furnitures/' . $id, '', request()->getRequestUri());
+
+        return redirect('/furnitures' . $query)->with('success', 'Furniture berhasil dihapus');
     }
 }

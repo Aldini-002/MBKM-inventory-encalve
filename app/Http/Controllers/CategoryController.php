@@ -8,41 +8,22 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    /**
-     * get data
-     */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $orderBy = request('orderBy') ?? 'name';
+        $order = request('order') ?? 'asc';
+        $categories = Category::filter(request(['search']))->orderBy($orderBy, $order)->paginate(10)->withQueryString();
 
         return view('categories.index', [
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
-    /**
-     * get data by id
-     */
-    public function show($id)
+    public function create()
     {
-        $category = Category::find($id);
-
-        if (!$category) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
-        }
-
-        return response()->json([
-            'message' => 'success',
-            'data' => $category
-        ], 200);
+        return view('categories.create');
     }
 
-    /**
-     * create data
-     */
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
@@ -50,34 +31,35 @@ class CategoryController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         Category::create([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 201);
+        return redirect('/categories?orderBy=created_at&order=desc')->with('success', 'Kategori berhasil ditambahkan');
     }
 
-    /**
-     * update data
-     */
+    public function edit($id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return back()->with('warning', 'Kategori tidak ditemukan');
+        }
+
+        return view('categories.edit', [
+            'category' => $category,
+        ]);
+    }
+
     public function update(Request $req, $id)
     {
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Kategori tidak ditemukan');
         }
 
         $validatorRules = [
@@ -93,41 +75,26 @@ class CategoryController extends Controller
         $validator = Validator::make($req->all(), $validatorRules);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'failed',
-                'errors' => $validator->errors()
-            ], 400);
+            return back()->withErrors($validator)->withInput();
         }
 
         $category->update([
             'name' => $req['name']
         ]);
 
-        return response()->json([
-            'message' => 'success',
-            'data' => $req['name'],
-        ], 200);
+        return redirect('/categories')->with('success', 'Kategori berhasil diubah');
     }
 
-    /**
-     * delete data
-     */
     public function destroy($id)
     {
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json([
-                'message' => 'Data not found',
-                'data' => null
-            ], 404);
+            return back()->with('warning', 'Kategori tidak ditemukan');
         }
 
         $category->delete();
 
-        return response()->json([
-            'message' => 'success',
-            'data' => null,
-        ], 200);
+        return redirect('/categories?orderBy=created_at&order=desc')->with('success', 'Kategori berhasil dihapus');
     }
 }
